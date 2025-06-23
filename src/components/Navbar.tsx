@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Home, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -29,11 +29,11 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <header className='sticky top-0 z-50 w-full  bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60'>
+    <header className='sticky top-0 z-50 w-full bg-[#F4F6FB] '>
       <div className='container mx-auto px-4'>
         <div className='flex h-16 items-center justify-between'>
           {/* Logo */}
-          <Link href='/' className='flex items-center space-x-2 border-2'>
+          <Link href='/' className='flex items-center space-x-2'>
             <div className='flex items-center justify-center'>
               <svg
                 width='32'
@@ -43,8 +43,8 @@ export default function Navbar() {
                 xmlns='http://www.w3.org/2000/svg'
               >
                 <path
-                  fill-rule='evenodd'
-                  clip-rule='evenodd'
+                  fillRule='evenodd'
+                  clipRule='evenodd'
                   d='M14.0798 7.75001C15.2221 6.91007 16.7778 6.91007 17.9201 7.75001L24.808 12.8147C25.6387 13.4255 26.1292 14.395 26.1292 15.4261V25.758H19.6465V17.066L15.9999 14.3847L12.3534 17.066V25.758H5.87061V15.4261C5.87061 14.395 6.36114 13.4255 7.19182 12.8147L14.0798 7.75001Z'
                   fill='#6ECEDA'
                 />
@@ -70,7 +70,7 @@ export default function Navbar() {
                   <NavigationMenuLink asChild>
                     <Link
                       href={item.href}
-                      className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-lg font-medium text-[#315D62] transition-colors hover:underline hover:text-[#315D62] focus:bg-gray-50 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50'
+                      className='group inline-flex h-10 w-max items-center justify-center rounded-md  px-4 py-2 text-lg font-medium text-[#315D62] transition-colors border border-transparent hover:border-gray-100 hover:text-[#315D62] focus:bg-gray-50 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50'
                     >
                       {item.name}
                     </Link>
@@ -84,7 +84,7 @@ export default function Navbar() {
           <div className='hidden lg:flex'>
             <Button
               variant='outline'
-              className='bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              className='bg-white text-lg text-[#4A4A4A] border-[#6ECEDA] !rounded-full hover:bg-gray-50'
               asChild
             >
               <Link href='/login'>Login</Link>
@@ -103,25 +103,48 @@ export default function Navbar() {
                 <Menu className='h-6 w-6' />
               </Button>
             </SheetTrigger>
-            <SheetContent side='right' className='w-[300px] sm:w-[400px]'>
+            <SheetContent
+              side='right'
+              className='w-[300px] sm:w-[400px] bg-[#27484C]'
+            >
               <div className='flex flex-col space-y-4 mt-8'>
                 {/* Mobile Logo */}
-                <div className='flex items-center space-x-2 pb-4 border-b'>
-                  <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-teal-500'>
-                    <Home className='h-5 w-5 text-white' />
+                <div className='flex items-center justify-center space-x-2 pb-4 border-b border-[#3164699f]'>
+                  <div className='flex h-8 w-8 items-center justify-center'>
+                    <svg
+                      width='32'
+                      height='32'
+                      viewBox='0 0 32 32'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        clipRule='evenodd'
+                        d='M14.0798 7.75001C15.2221 6.91007 16.7778 6.91007 17.9201 7.75001L24.808 12.8147C25.6387 13.4255 26.1292 14.395 26.1292 15.4261V25.758H19.6465V17.066L15.9999 14.3847L12.3534 17.066V25.758H5.87061V15.4261C5.87061 14.395 6.36114 13.4255 7.19182 12.8147L14.0798 7.75001Z'
+                        fill='#6ECEDA'
+                      />
+                      <rect
+                        x='12.395'
+                        y='25.7578'
+                        width='7.24329'
+                        height='5.24219'
+                        fill='#4A4A4A'
+                      />
+                    </svg>
                   </div>
-                  <span className='text-xl font-semibold text-gray-900'>
+                  <span className='text-xl font-bold text-[#D7D7D7]'>
                     VeluxaClean
                   </span>
                 </div>
 
                 {/* Mobile Navigation Links */}
-                <nav className='flex flex-col space-y-2'>
+                <nav className='flex-1 flex flex-col items-center justify-center space-y-5'>
                   {navigationItems.map((item) => (
                     <SheetClose asChild key={item.name}>
                       <Link
                         href={item.href}
-                        className='flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                        className='flex items-center rounded-md px-3 py-2 text-sm font-medium text-[#D7D7D7] hover:bg-gray-100 hover:text-gray-900'
                         onClick={() => setIsOpen(false)}
                       >
                         {item.name}
@@ -131,11 +154,11 @@ export default function Navbar() {
                 </nav>
 
                 {/* Mobile Login Button */}
-                <div className='pt-4 border-t'>
+                <div className='w-full absolute bottom-5 flex items-center pt-4 border-t border-[#3164699f]'>
                   <SheetClose asChild>
                     <Button
                       variant='outline'
-                      className='w-full bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      className='w-[90%] mx-auto bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                       asChild
                     >
                       <Link href='/login'>Login</Link>
