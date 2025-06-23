@@ -92,14 +92,18 @@ export default function ServicesSection() {
       <div className='container mx-auto'>
         {/* Header */}
         <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`max-w-[500px] border-2 mx-auto text-center mb-16 transition-all duration-1000 
+            ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }
+          `}
         >
-          <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6'>
+          <h2 className='text-4xl md:text-5xl lg:text-[52px] font-bold text-[#171921] mb-6'>
             Our Services
           </h2>
-          <p className='text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed'>
+          <p className='text-base md:text-lg text-[#545971] leading-relaxed'>
             You have problems with leaking pipes, broken tiles, lost keys or
             want to tidy up the trees around you, of course you need our help!
           </p>

@@ -1,15 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Card } from "@/components/ui/card";
-import {
-  RefreshCw,
-  Clock,
-  MapPin,
-  Calendar,
-  Check,
-  BadgeCheck,
-} from "lucide-react";
+import { Clock, MapPin, Calendar, Check, BadgeCheck } from "lucide-react";
 import Image from "next/image";
 
 const features = [
