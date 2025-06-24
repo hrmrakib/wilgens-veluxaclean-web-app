@@ -2,14 +2,7 @@
 
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Home,
-  Building2,
-  CarIcon as Carpet,
-  Building,
-  Phone,
-} from "lucide-react";
+import { Home, TentTree, AlarmSmoke, TreePalm } from "lucide-react";
 
 const services = [
   {
@@ -23,7 +16,7 @@ const services = [
   },
   {
     id: 2,
-    icon: Building2,
+    icon: TentTree,
     title: "Move-in/Move-out",
     description: "Roof leaks, tile replacement, roof cleaning and maintenance",
     href: "/services/move-in-out",
@@ -32,7 +25,7 @@ const services = [
   },
   {
     id: 3,
-    icon: Carpet,
+    icon: AlarmSmoke,
     title: "Carpet Cleaning Service",
     description: "Removing and cleaning mildew, Restoration and Prevention",
     href: "/services/carpet-cleaning",
@@ -41,7 +34,7 @@ const services = [
   },
   {
     id: 4,
-    icon: Building,
+    icon: TreePalm,
     title: "Commercial Cleaning Service",
     description:
       "repair of washing machines, refrigerators, Air conditioner, etc",
@@ -88,11 +81,18 @@ export default function ServicesSection() {
   };
 
   return (
-    <section id='services-section' className='py-16 lg:py-24 bg-gray-50'>
+    <section
+      id='services-section'
+      className='py-16 lg:py-24 bg-gray-50'
+      style={{
+        background:
+          "radial-gradient(61.56% 61.56% at 50% 50%, rgba(21, 178, 245, 0.0936) 0%, rgba(110, 206, 218, 0.0468) 100%)",
+      }}
+    >
       <div className='container mx-auto'>
         {/* Header */}
         <div
-          className={`max-w-[500px] border-2 mx-auto text-center mb-16 transition-all duration-1000 
+          className={`max-w-[570px] mx-auto text-center mb-16 transition-all duration-1000 
             ${
               isVisible
                 ? "opacity-100 translate-y-0"
@@ -115,7 +115,7 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <Card
               key={service.id}
-              className={`group cursor-pointer transition-all duration-700 hover:shadow-xl hover:-translate-y-2 ${
+              className={`group cursor-pointer transition-all duration-700 hover:shadow-none shadow-xl hover:-translate-y-2 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -129,14 +129,12 @@ export default function ServicesSection() {
                 <div className='flex flex-col items-start space-y-6'>
                   {/* Icon */}
                   <div
-                    className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${
-                      hoveredCard === service.id
-                        ? "bg-cyan-500 scale-110"
-                        : service.color
+                    className={`!bg-[#52cada] w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                      hoveredCard === service.id ? "scale-110" : service.color
                     }`}
                   >
                     <service.icon
-                      className={`w-8 h-8 transition-colors duration-300 ${
+                      className={`w-8 h-8 text-white transition-colors duration-300 ${
                         hoveredCard === service.id
                           ? "text-white"
                           : service.iconColor
@@ -146,10 +144,10 @@ export default function ServicesSection() {
 
                   {/* Content */}
                   <div className='space-y-4 flex-grow'>
-                    <h3 className='text-xl md:text-2xl font-bold text-gray-900 leading-tight group-hover:text-cyan-600 transition-colors duration-300'>
+                    <h3 className='text-xl md:text-2xl font-bold text-[#171921] leading-tight group-hover:text-cyan-600 transition-colors duration-300'>
                       {service.title}
                     </h3>
-                    <p className='text-gray-600 leading-relaxed text-base'>
+                    <p className='text-[#545971] text-lg leading-relaxed'>
                       {service.description}
                     </p>
                   </div>
@@ -160,7 +158,7 @@ export default function ServicesSection() {
 
           {/* Call-to-Action Card */}
           <Card
-            className={`group cursor-pointer transition-all duration-700 hover:shadow-xl hover:-translate-y-2 bg-gradient-to-br from-cyan-400 to-blue-500 border-0 md:col-span-1 lg:col-span-1 ${
+            className={`group cursor-pointer transition-all duration-700 hover:shadow-xl hover:-translate-y-2 bg-[#15B2F5] border-0 md:col-span-1 lg:col-span-1 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
@@ -168,7 +166,7 @@ export default function ServicesSection() {
             style={{ transitionDelay: `${services.length * 150}ms` }}
             onClick={handleContactClick}
           >
-            <CardContent className='p-8 h-full flex flex-col justify-center items-center text-center text-white'>
+            <CardContent className='p-8 h-full flex flex-col justify-center items-center text-center text-[#fff]'>
               <div className='space-y-6'>
                 <h3 className='text-2xl md:text-3xl font-bold'>
                   More service?
@@ -176,17 +174,15 @@ export default function ServicesSection() {
                 <p className='text-lg leading-relaxed opacity-90'>
                   You can tell us what you need and we can help!
                 </p>
-                <Button
-                  size='lg'
-                  className='bg-white text-cyan-600 hover:bg-gray-50 font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105'
+                <button
+                  className='w-[356px] mx-auto h-16 flex items-center justify-center text-base md:text-2xl bg-white text-cyan-600 hover:bg-gray-50 font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105'
                   onClick={(e) => {
                     e.stopPropagation();
                     handleContactClick();
                   }}
                 >
-                  <Phone className='w-5 h-5 mr-2' />
                   Contact Now
-                </Button>
+                </button>
               </div>
             </CardContent>
           </Card>

@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import Image from "next/image";
 
 const blogPosts = [
@@ -14,7 +13,7 @@ const blogPosts = [
     description:
       "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
     category: "Residential",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/blog1.png",
     href: "/blog/window-cleaning",
   },
   {
@@ -24,7 +23,7 @@ const blogPosts = [
     description:
       "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
     category: "Move-in/Move-out",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/blog2.png",
     href: "/blog/bedroom-cleaning",
   },
   {
@@ -34,7 +33,7 @@ const blogPosts = [
     description:
       "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
     category: "Carpet",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/blog3.jpg",
     href: "/blog/bathroom-cleaning",
   },
   {
@@ -44,7 +43,7 @@ const blogPosts = [
     description:
       "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
     category: "Residential",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/blog4.jpg",
     href: "/blog/kitchen-cleaning",
   },
   {
@@ -54,7 +53,7 @@ const blogPosts = [
     description:
       "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
     category: "Commercial",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/blog1.png",
     href: "/blog/office-sanitization",
   },
   {
@@ -64,7 +63,7 @@ const blogPosts = [
     description:
       "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
     category: "Carpet",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/blog2.jpg",
     href: "/blog/carpet-restoration",
   },
 ];
@@ -126,26 +125,26 @@ export default function BlogCarousel() {
         const maxIndex = blogPosts.length - visibleCards;
         return prevIndex >= maxIndex ? 0 : prevIndex + 1;
       });
-    }, 4000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, visibleCards]);
 
-  const nextSlide = () => {
-    setIsAutoPlaying(false);
-    setCurrentIndex((prevIndex) => {
-      const maxIndex = blogPosts.length - visibleCards;
-      return prevIndex >= maxIndex ? 0 : prevIndex + 1;
-    });
-  };
+  // const nextSlide = () => {
+  //   setIsAutoPlaying(false);
+  //   setCurrentIndex((prevIndex) => {
+  //     const maxIndex = blogPosts.length - visibleCards;
+  //     return prevIndex >= maxIndex ? 0 : prevIndex + 1;
+  //   });
+  // };
 
-  const prevSlide = () => {
-    setIsAutoPlaying(false);
-    setCurrentIndex((prevIndex) => {
-      const maxIndex = blogPosts.length - visibleCards;
-      return prevIndex <= 0 ? maxIndex : prevIndex - 1;
-    });
-  };
+  // const prevSlide = () => {
+  //   setIsAutoPlaying(false);
+  //   setCurrentIndex((prevIndex) => {
+  //     const maxIndex = blogPosts.length - visibleCards;
+  //     return prevIndex <= 0 ? maxIndex : prevIndex - 1;
+  //   });
+  // };
 
   const goToSlide = (index: number) => {
     setIsAutoPlaying(false);
@@ -160,15 +159,22 @@ export default function BlogCarousel() {
   const maxIndex = blogPosts.length - visibleCards;
 
   return (
-    <section id='blog-section' className='py-16 lg:py-24 bg-gray-50'>
-      <div className='container mx-auto px-4 max-w-7xl'>
+    <section
+      id='blog-section'
+      className='py-16 lg:py-24 bg-gray-50'
+      style={{
+        background:
+          "radial-gradient(61.56% 61.56% at 50% 50%, rgba(21, 178, 245, 0.0936) 0%, rgba(110, 206, 218, 0.0468) 100%)",
+      }}
+    >
+      <div className='container mx-auto'>
         {/* Header */}
         <div
           className={`text-center mb-16 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6'>
+          <h2 className='text-4xl md:text-5xl lg:text-[52px] font-bold text-[#4A4A4A] mb-6'>
             Explore Insights in Our Blog
           </h2>
           <p className='text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed'>
@@ -180,7 +186,7 @@ export default function BlogCarousel() {
         {/* Carousel Container */}
         <div className='relative'>
           {/* Navigation Buttons */}
-          <Button
+          {/* <Button
             variant='outline'
             size='icon'
             className='absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50'
@@ -198,7 +204,7 @@ export default function BlogCarousel() {
             disabled={currentIndex >= maxIndex}
           >
             <ChevronRight className='w-5 h-5' />
-          </Button>
+          </Button> */}
 
           {/* Carousel */}
           <div className='overflow-hidden' ref={carouselRef}>
@@ -236,7 +242,7 @@ export default function BlogCarousel() {
                         <Image
                           src={post.image || "/placeholder.svg"}
                           alt={post.title}
-                          className='w-full h-48 md:h-56 object-cover transition-transform duration-300 group-hover:scale-105'
+                          className='w-full h-48 md:h-72 object-cover transition-transform duration-300 group-hover:scale-105'
                           width={400}
                           height={300}
                         />
@@ -246,24 +252,24 @@ export default function BlogCarousel() {
                       {/* Content */}
                       <div className='p-6 flex-grow flex flex-col'>
                         {/* Date */}
-                        <div className='flex items-center text-gray-500 text-sm mb-3'>
+                        <div className='flex items-center text-[#545971] text-lg mb-3'>
                           <Calendar className='w-4 h-4 mr-2' />
                           {post.date}
                         </div>
 
                         {/* Title */}
-                        <h3 className='text-xl md:text-2xl font-bold text-gray-900 mb-4 group-hover:text-cyan-600 transition-colors duration-300'>
+                        <h3 className='text-xl md:text-[32px] font-bold text-[#4A4A4A] mb-4 group-hover:text-cyan-600 transition-colors duration-300'>
                           {post.title}
                         </h3>
 
                         {/* Description */}
-                        <p className='text-gray-600 leading-relaxed mb-6 flex-grow'>
+                        <p className='text-[#545971] text-lg leading-relaxed mb-6 flex-grow'>
                           {post.description}
                         </p>
 
                         {/* Category Tag */}
                         <div className='mt-auto'>
-                          <span className='inline-block px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full font-medium group-hover:bg-cyan-100 group-hover:text-cyan-700 transition-colors duration-300'>
+                          <span className='inline-block px-3 py-1 bg-[#DDF6FF] text-gray-700 text-sm rounded-full font-medium group-hover:bg-white group-hover:text-cyan-700 transition-colors duration-300'>
                             {post.category}
                           </span>
                         </div>
@@ -280,7 +286,7 @@ export default function BlogCarousel() {
             {Array.from({ length: maxIndex + 1 }).map((_, index) => (
               <button
                 key={index}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
                   index === currentIndex
                     ? "bg-cyan-500 scale-125"
                     : "bg-gray-300 hover:bg-gray-400"
