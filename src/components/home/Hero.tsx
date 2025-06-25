@@ -2,9 +2,8 @@
 
 // import * as React from "react";
 // import Link from "next/link";
-// import { Shield, TrendingUp, Settings, CheckCircle } from "lucide-react";
 // import { Button } from "@/components/ui/button";
-// import { Card } from "@/components/ui/card";
+// import Image from "next/image";
 
 // const services = [
 //   { name: "Maintenances", href: "/services/maintenance" },
@@ -12,7 +11,7 @@
 //   { name: "Improvements", href: "/services/improvements" },
 // ];
 
-// function Hero2() {
+// export default function Hero() {
 //   const [isVisible, setIsVisible] = React.useState(false);
 
 //   React.useEffect(() => {
@@ -127,6 +126,16 @@
 //           </div>
 
 //           {/* Right Content - Image with Floating Elements */}
+//           <div className='relative'>
+//             <Image
+//               src='/home/hero.png'
+//               alt='Professional cleaner in blue uniform with cleaning supplies'
+//               className='w-[512px] h-[812px]'
+//               width={480}
+//               height={480}
+//             />
+//           </div>
+
 //           {/* <div
 //             className={`relative transition-all duration-1000 delay-300 ${
 //               isVisible
@@ -137,67 +146,14 @@
 //             <div className='relative w-full max-w-md mx-auto'>
 //               <div className='aspect-[3/4] bg-gradient-to-br from-white/20 to-white/10 rounded-3xl backdrop-blur-sm border border-white/20 flex items-center justify-center'>
 //                 <div className='text-center text-white/80'>
-//                   <div className='w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center'>
-//                     <Settings className='w-12 h-12' />
-//                   </div>
+//                   <div className='w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center'></div>
 //                   <p className='text-sm'>Professional Cleaner</p>
 //                 </div>
 //               </div>
-
-//               <Card
-//                 className={`absolute -top-4 -right-4 p-4 bg-white shadow-xl transition-all duration-700 delay-500 ${
-//                   isVisible
-//                     ? "opacity-100 translate-y-0"
-//                     : "opacity-0 -translate-y-4"
-//                 }`}
-//               >
-//                 <div className='flex items-center gap-3'>
-//                   <div className='w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center'>
-//                     <Settings className='w-5 h-5 text-teal-600' />
-//                   </div>
-//                   <div>
-//                     <p className='font-semibold text-gray-900'>Qualified</p>
-//                     <p className='text-sm text-gray-600'>Work Team</p>
-//                   </div>
-//                 </div>
-//               </Card>
-
-//               <Card
-//                 className={`absolute top-1/4 -left-6 p-4 bg-white shadow-xl transition-all duration-700 delay-700 ${
-//                   isVisible
-//                     ? "opacity-100 translate-y-0"
-//                     : "opacity-0 -translate-y-4"
-//                 }`}
-//               >
-//                 <div className='w-12 h-12 bg-teal-500 rounded-xl flex items-center justify-center'>
-//                   <Shield className='w-6 h-6 text-white' />
-//                   <CheckCircle className='w-4 h-4 text-white absolute bottom-0 right-0 bg-green-500 rounded-full' />
-//                 </div>
-//               </Card>
-
-//               <Card
-//                 className={`absolute -bottom-6 -left-4 p-4 bg-white shadow-xl transition-all duration-700 delay-900 ${
-//                   isVisible
-//                     ? "opacity-100 translate-y-0"
-//                     : "opacity-0 translate-y-4"
-//                 }`}
-//               >
-//                 <div className='flex items-center gap-3'>
-//                   <div className='w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center'>
-//                     <TrendingUp className='w-5 h-5 text-teal-600' />
-//                   </div>
-//                   <div>
-//                     <p className='font-semibold text-gray-900'>Best</p>
-//                     <p className='text-sm text-gray-600'>Cleaning Service</p>
-//                   </div>
-//                 </div>
-//               </Card>
 //             </div>
 //           </div> */}
 //         </div>
 //       </div>
-
-//       <div>hello</div>
 //     </section>
 //   );
 // }
@@ -206,7 +162,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const services = [
@@ -225,68 +180,13 @@ export default function Hero() {
   return (
     <section className='relative  bg-[#F4F6FB] overflow-hidden'>
       {/* Right side full-screen background */}
-      <div className='hidden lg:block absolute bottom-0 right-0 w-1/2 h-full bg-[#6ECEDA] rounded-bl-[700px] z-0' />
+      <div className='hidden lg:block absolute bottom-0 -top-32 right-0 w-1/2 min-h-full bg-[url("/home/hero.png")] bg-no-repeat bg-cover z-0' />
 
       {/* Main content inside container */}
       <div className='relative container mx-auto flex flex-col lg:flex-row min-h-screen z-10'>
         {/* Left Content */}
-        {/* <div
-          className={`w-full lg:w-1/2 px-4 py-12 lg:py-20 space-y-8 transition-all duration-1000 ${
-            isVisible
-              ? "opacity-100 translate-x-0"
-              : "opacity-0 -translate-x-10"
-          }`}
-        >
-          <nav className='flex flex-wrap gap-4 text-sm'>
-            {services.map((service, index) => (
-              <React.Fragment key={service.name}>
-                <Link
-                  href={service.href}
-                  className='text-[#B0B2B9] hover:text-[#B0B2B9] text-xl font-bold transition-colors duration-200'
-                >
-                  {service.name}
-                </Link>
-                {index < services.length - 1 && (
-                  <span className='text-[#B0B2B9]'>•</span>
-                )}
-              </React.Fragment>
-            ))}
-          </nav>
-
-          <div className='space-y-4'>
-            <h1 className='relative text-4xl md:text-5xl lg:text-[56px] font-bold text-[#4A4A4A] leading-tight'>
-              Happiness Is Freshly{" "}
-              <span className='text-[#15B2F5] relative'>
-                Cleaning
-                <div className='absolute -bottom-2 left-0 w-full h-1 bg-white/30 rounded-full' />
-              </span>{" "}
-              House
-            </h1>
-            <p className='text-[#838B95] text-sm md:text-base max-w-[540px] leading-loose'>
-              Awesome site on the top advertising a Courses available business
-              online includes assembling having awesome site on the top
-              advertising a Courses available business having.
-            </p>
-          </div>
-
-          <div className='flex flex-col sm:flex-row gap-4'>
-            <Button
-              variant='outline'
-              size='lg'
-              className='w-[150px] h-[52px] bg-transparent hover:bg-[#6ECEDA] hover:text-[#4A4A4A] border-[#2f452b23] text-[#15B2F5] rounded-full transition-all duration-300'
-              asChild
-            >
-              <Link href='/about'>About Us</Link>
-            </Button>
-          </div>
-        </div> */}
 
         <div
-          //   className={` space-y-8 transition-all duration-1000 ${
-          //     isVisible
-          //       ? "opacity-100 translate-x-0"
-          //       : "opacity-0 -translate-x-10"
-          //   }`}
           className={`w-full lg:w-1/2 px-4 py-12 lg:py-40 space-y-8 transition-all duration-1000 ${
             isVisible
               ? "opacity-100 translate-x-0"
@@ -389,22 +289,19 @@ export default function Hero() {
         </div>
 
         {/* Right Content */}
-        <div
+        {/* <div
           className={`hidden lg:flex lg:w-1/2 items-center justify-center relative transition-all duration-1000 delay-300 ${
             isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
           }`}
         >
-          <div className='relative w-full max-w-md mx-auto'>
-            <div className='aspect-[3/4] bg-gradient-to-br from-white/20 to-white/10 rounded-3xl backdrop-blur-sm border border-white/20 flex items-center justify-center'>
-              <div className='text-center text-white/80'>
-                <div className='w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center'>
-                  <Settings className='w-12 h-12' />
-                </div>
-                <p className='text-sm'>Professional Cleaner</p>
-              </div>
-            </div>
-          </div>
-        </div>
+          <Image
+            src='/home/hero.png'
+            alt='Professional cleaner in blue uniform with cleaning supplies'
+            className='w-[512px] h-[812px]'
+            width={480}
+            height={480}
+          />
+        </div> */}
       </div>
     </section>
   );
