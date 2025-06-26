@@ -7,7 +7,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Check, MapPin, Phone, Mail, ChevronRight, Star } from "lucide-react";
-import BookingPage from "@/app/temp/page";
+import BookingPage from "@/components/service/BookingForm";
 
 interface BookingFormData {
   name: string;
