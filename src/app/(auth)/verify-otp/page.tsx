@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ArrowLeft, CheckCircle, Mail, RefreshCw } from "lucide-react";
+import { ArrowLeft, CheckCircle, RefreshCw } from "lucide-react";
 
 interface VerificationState {
   code: string[];
@@ -33,7 +33,7 @@ export default function VerifyEmailPage() {
   });
 
   const [isSuccess, setIsSuccess] = useState(false);
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const inputRefs = useRef<(HTMLInputElement | null | undefined)[]>([]);
 
   // Countdown timer for resend functionality
   useEffect(() => {
