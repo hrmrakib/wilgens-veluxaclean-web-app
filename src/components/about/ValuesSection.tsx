@@ -1,16 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Shield,
-  Heart,
-  Scale,
-  Target,
-  Award,
-  Users,
-  BookOpen,
-  Handshake,
-} from "lucide-react";
+
 import Image from "next/image";
 
 const values = [
@@ -19,7 +10,7 @@ const values = [
     title: "Integrity",
     description:
       "Acting with strong ethics is a priority for everyone representing the organization as well as the company's behaviour as a whole.",
-    icon: Shield,
+    icon: "/about/v1.png",
     color: "text-orange-500",
     bgColor: "bg-orange-50",
     borderColor: "border-orange-200",
@@ -29,7 +20,7 @@ const values = [
     title: "Honesty",
     description:
       "It's not just the best policy, it's a core business practice to act in a transparent, trustworthy manner that earns the respect of colleagues, customers and the public.",
-    icon: Heart,
+    icon: "/about/v2.png",
     color: "text-purple-500",
     bgColor: "bg-purple-50",
     borderColor: "border-purple-200",
@@ -39,7 +30,7 @@ const values = [
     title: "Fairness",
     description:
       "Treating everyone with the common decency we all deserve and expect.",
-    icon: Scale,
+    icon: "/about/v3.png",
     color: "text-blue-500",
     bgColor: "bg-blue-50",
     borderColor: "border-blue-200",
@@ -49,7 +40,7 @@ const values = [
     title: "Accountability",
     description:
       "Accepting responsibility for your actions (and inactions) is the ultimate way to build trust internally and externally.",
-    icon: Target,
+    icon: "/about/v4.png",
     color: "text-red-500",
     bgColor: "bg-red-50",
     borderColor: "border-red-200",
@@ -59,7 +50,7 @@ const values = [
     title: "Commitment To Deliver",
     description:
       "Creating a great customer experience begins with staying true to the words we speak and the bonds we make.",
-    icon: Award,
+    icon: "/about/v5.png",
     color: "text-green-500",
     bgColor: "bg-green-50",
     borderColor: "border-green-200",
@@ -69,7 +60,7 @@ const values = [
     title: "Diversity & Inclusion",
     description:
       "Organisations succeed by bringing different lived experiences and a range of backgrounds into a shared environment where everyone has equal opportunity.",
-    icon: Users,
+    icon: "/about/v6.png",
     color: "text-purple-500",
     bgColor: "bg-purple-50",
     borderColor: "border-purple-200",
@@ -79,7 +70,7 @@ const values = [
     title: "Learning",
     description:
       "No one has all the answers. A culture of humility and continuous learning is a bedrock principle of successful companies.",
-    icon: BookOpen,
+    icon: "/about/v7.png",
     color: "text-orange-500",
     bgColor: "bg-orange-50",
     borderColor: "border-orange-200",
@@ -89,7 +80,7 @@ const values = [
     title: "Teamwork",
     description:
       "When people work together, they can create something greater than themselves as individuals.",
-    icon: Handshake,
+    icon: "/about/v8.png",
     color: "text-blue-500",
     bgColor: "bg-blue-50",
     borderColor: "border-blue-200",
@@ -112,7 +103,7 @@ export default function ValuesSection() {
         {/* Values Grid */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto'>
           {values.map((value) => {
-            const IconComponent = value.icon;
+            // const IconComponent = value.icon;
             const isHovered = hoveredCard === value.id;
 
             return (
@@ -147,8 +138,8 @@ export default function ValuesSection() {
                     <Image
                       src={value.icon}
                       alt={value.title}
-                      width={50}
-                      height={50}
+                      width={77}
+                      height={77}
                     />
                   </div>
 

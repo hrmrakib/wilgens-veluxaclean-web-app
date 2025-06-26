@@ -54,14 +54,17 @@ export default function CommonBanner({
   }
 
   return (
-    <div className='relative w-full overflow-hidden bg-[url("/banner2.png")] md:bg-[url("/common-banner.jpg")] bg-cover bg-center h-[412px]'>
+    <div className='relative w-full overflow-hidden bg-[url("/common-banner2.jpg")] md:bg-[url("/common-banner.jpg")] bg-cover bg-center h-[412px]'>
       <div className='h-full w-full bg-[] flex items-center justify-between'>
         <div className='h-full md:h-auto container mx-auto flex flex-col md:flex-row items-center justify-center'>
           <div className='text-center md:px-4 py-6 md:py-6'>
             <h1 className='text-4xl md:text-5xl lg:text-6xl font-bold text-[#4A4A4A] mb-4'>
               {title}
             </h1>
-            <nav aria-label='Breadcrumb' className="flex items-center justify-center gap-2">
+            <nav
+              aria-label='Breadcrumb'
+              className='flex items-center justify-center gap-2'
+            >
               <svg
                 width='16'
                 height='17'

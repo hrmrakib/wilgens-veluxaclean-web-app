@@ -1,3 +1,4 @@
+import AboutBlogSection from "@/components/about/AboutBlogSection";
 import AboutPageSection from "@/components/about/AboutPageSection";
 import MissionSection from "@/components/about/MissionSection";
 import ValuesSection from "@/components/about/ValuesSection";
@@ -11,6 +12,7 @@ const AboutPage = () => {
       <AboutPageSection />
       <MissionSection />
       <ValuesSection />
+      <AboutBlogSection />
     </div>
   );
 };
