@@ -117,23 +117,17 @@ export default function BookingPage() {
   };
 
   return (
-    <div className='absolute top-36 -right-44 transform -translate-x-1/2 -translate-y-1/2 max-w-md'>
+    <div className='absolute top-32 -right-44 transform -translate-x-1/2 -translate-y-1/2 max-w-md'>
       <Card className='shadow-lg border-0 p-6'>
-        <CardHeader className='pb-6'>
+        <CardHeader>
           <CardTitle className='text-2xl font-bold text-gray-900'>
             Book Now
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className='space-y-6'>
+          <form onSubmit={handleSubmit} className='space-y-5'>
             {/* Name Field */}
             <div className='space-y-2'>
-              <Label
-                htmlFor='name'
-                className='text-sm font-medium text-gray-700'
-              >
-                Name
-              </Label>
               <Input
                 id='name'
                 type='text'
@@ -153,12 +147,6 @@ export default function BookingPage() {
 
             {/* Email Field */}
             <div className='space-y-2'>
-              <Label
-                htmlFor='email'
-                className='text-sm font-medium text-gray-700'
-              >
-                Email
-              </Label>
               <Input
                 id='email'
                 type='email'
@@ -269,7 +257,7 @@ export default function BookingPage() {
                 value={formData.message}
                 onChange={(e) => handleInputChange("message", e.target.value)}
                 rows={10}
-                className='resize-none border border-gray-200 focus:border-teal-500 focus:ring-teal-500'
+                className='h-10 resize-none border border-gray-200 focus:border-teal-500 focus:ring-teal-500'
               />
             </div>
 
@@ -277,7 +265,7 @@ export default function BookingPage() {
             <Button
               type='submit'
               disabled={isSubmitting}
-              className='w-full h-12 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg transition-colors duration-200'
+              className='w-full h-12 bg-[#6ECEDA] hover:bg-[#6ecddab9] text-[#4A4A4A] font-medium rounded-full transition-colors duration-200'
             >
               {isSubmitting ? (
                 <div className='flex items-center gap-2'>
@@ -291,8 +279,8 @@ export default function BookingPage() {
           </form>
         </CardContent>
 
-        <div className='p-6'>
-          <h2 className='text-2xl font-bold text-[#051625] mb-6'>
+        <div className='px-6'>
+          <h2 className='text-2xl font-bold text-[#051625] mb-4'>
             Contact Details
           </h2>
 
