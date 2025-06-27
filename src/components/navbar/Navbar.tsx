@@ -16,10 +16,12 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import { usePathname } from "next/navigation";
 
 const navigationItems = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
+  { name: "AI Chat", href: "/ai-chat" },
   { name: "About Us", href: "/about" },
   { name: "Our Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
@@ -27,6 +29,11 @@ const navigationItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const pathname = usePathname();
+
+  if (pathname === "/ai-chat" || pathname === "/login") {
+    return null; // Hide the navbar on the login page
+  }
 
   return (
     <header className='sticky top-0 z-50 w-full bg-[#F4F6FB] '>

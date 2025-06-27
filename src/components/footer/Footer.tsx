@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const footerLinks = {
   company: [
@@ -181,7 +182,7 @@ const contactInfo = [
 
 export default function Footer() {
   const [isVisible, setIsVisible] = React.useState(false);
-
+  const pathname = usePathname();
   React.useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -212,6 +213,10 @@ export default function Footer() {
   const handleContactClick = (href: string) => {
     window.location.href = href;
   };
+
+  if (pathname === "/ai-chat") {
+    return null; // Don't render footer on AI chat page
+  }
 
   return (
     <footer id='footer' className='bg-[#315D62] text-white'>

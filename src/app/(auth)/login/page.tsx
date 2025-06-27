@@ -323,7 +323,7 @@ export default function LoginPage() {
 
       {/* Right Side - Illustration */}
       <div className='hidden lg:flex flex-1 items-center justify-center bg-[#FFFFFF] p-8'>
-        <div className='max-w-xl'>
+        <div className='w-2xl'>
           <Image
             src='/auth/auth-img.png'
             alt='Professional cleaner with tools'
