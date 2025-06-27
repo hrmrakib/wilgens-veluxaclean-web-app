@@ -117,7 +117,7 @@ export default function BookingPage() {
   };
 
   return (
-    <div className='absolute top-32 -right-44 transform -translate-x-1/2 -translate-y-1/2 max-w-md'>
+    <div className='lg:absolute lg:top-32 lg:-right-44 lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2 max-w-md'>
       <Card className='shadow-lg border-0 p-6'>
         <CardHeader>
           <CardTitle className='text-2xl font-bold text-gray-900'>

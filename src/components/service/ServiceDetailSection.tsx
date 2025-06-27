@@ -171,101 +171,6 @@ export default function ServiceDetailSection() {
                 </div>
               </div>
             </div>
-
-            {/* Booking Form */}
-            {/* <div className='lg:col-span-1'>
-              <div className='bg-white rounded-2xl p-6 shadow-lg border border-gray-200'>
-                <div className='flex items-center justify-between mb-4'>
-                  <h3 className='text-lg font-semibold text-gray-900'>
-                    Book Now
-                  </h3>
-                  {submitStatus === "success" && (
-                    <span className='text-sm text-green-600 font-medium'>
-                      Booking submitted!
-                    </span>
-                  )}
-                </div>
-
-                <form onSubmit={handleSubmit} className='space-y-4'>
-                  <div>
-                    <input
-                      type='text'
-                      value={formData.name}
-                      onChange={(e) =>
-                        handleInputChange("name", e.target.value)
-                      }
-                      placeholder='Enter your name'
-                      className={`
-                        w-full px-4 py-3 rounded-lg border transition-colors duration-200
-                        focus:outline-none focus:ring-2 focus:ring-cyan-500
-                        ${errors.name ? "border-red-300" : "border-gray-300"}
-                      `}
-                    />
-                    {errors.name && (
-                      <p className='mt-1 text-xs text-red-600'>{errors.name}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <input
-                      type='tel'
-                      value={formData.phone}
-                      onChange={(e) =>
-                        handleInputChange("phone", e.target.value)
-                      }
-                      placeholder='Phone'
-                      className={`
-                        w-full px-4 py-3 rounded-lg border transition-colors duration-200
-                        focus:outline-none focus:ring-2 focus:ring-cyan-500
-                        ${errors.phone ? "border-red-300" : "border-gray-300"}
-                      `}
-                    />
-                    {errors.phone && (
-                      <p className='mt-1 text-xs text-red-600'>
-                        {errors.phone}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <input
-                      type='email'
-                      value={formData.email}
-                      onChange={(e) =>
-                        handleInputChange("email", e.target.value)
-                      }
-                      placeholder='Email'
-                      className={`
-                        w-full px-4 py-3 rounded-lg border transition-colors duration-200
-                        focus:outline-none focus:ring-2 focus:ring-cyan-500
-                        ${errors.email ? "border-red-300" : "border-gray-300"}
-                      `}
-                    />
-                    {errors.email && (
-                      <p className='mt-1 text-xs text-red-600'>
-                        {errors.email}
-                      </p>
-                    )}
-                  </div>
-
-                  <button
-                    type='submit'
-                    disabled={isSubmitting}
-                    className={`
-                      w-full py-3 px-4 rounded-lg font-medium transition-all duration-200
-                      focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2
-                      ${
-                        isSubmitting
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-cyan-500 hover:bg-cyan-600 text-white"
-                      }
-                    `}
-                  >
-                    {isSubmitting ? "Submitting..." : "Submit"}
-                  </button>
-                </form>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
@@ -275,6 +180,10 @@ export default function ServiceDetailSection() {
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12'>
           {/* Main Content */}
           <div className='lg:col-span-2 space-y-12'>
+            <div className='md:hidden'>
+              <BookingPage />
+            </div>
+
             {/* Overview Section */}
             <section>
               <h2 className='text-2xl lg:text-3xl font-bold text-gray-900 mb-6'>
@@ -423,7 +332,9 @@ export default function ServiceDetailSection() {
           </div> */}
         </div>
 
+        {/* <div className='hidden md:flex'> */}
         <BookingPage />
+        {/* </div> */}
       </div>
     </div>
   );

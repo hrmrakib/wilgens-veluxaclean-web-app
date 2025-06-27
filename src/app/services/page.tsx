@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Bed, Bath, Star, ArrowRight, Minus, Plus } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const categories = [
   { id: "all", name: "All Categories", count: 45 },
@@ -385,88 +386,90 @@ export default function ServicesPage() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderServiceCard = (service: any, index: number) => (
-    <Card
-      key={service.id}
-      className={`group cursor-pointer transition-all duration-700 hover:shadow-xl hover:-translate-y-2 overflow-hidden ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
-      onMouseEnter={() => setHoveredCard(service.id)}
-      onMouseLeave={() => setHoveredCard(null)}
-      onClick={() => handleServiceClick(service.id)}
-    >
-      <CardContent className='p-0 h-full flex flex-col'>
-        {/* Image */}
-        <div className='relative overflow-hidden'>
-          <Image
-            src={service.image || "/placeholder.svg"}
-            alt={service.title}
-            className='w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105'
-            width={300}
-            height={200}
-          />
-          <div className='absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
-        </div>
-
-        {/* Content */}
-        <div className='p-4 flex-grow flex flex-col'>
-          {/* Title */}
-          <h3 className='text-base font-bold text-gray-900 mb-2 group-hover:text-cyan-600 transition-colors duration-300 line-clamp-2'>
-            {service.title}
-          </h3>
-
-          {/* Room Info */}
-          {(service.bedrooms > 0 || service.bathrooms > 0) && (
-            <div className='flex items-center space-x-3 mb-2 text-sm text-gray-600'>
-              {service.bedrooms > 0 && (
-                <div className='flex items-center space-x-1'>
-                  <Bed className='w-3 h-3' />
-                  <span>{service.bedrooms}</span>
-                </div>
-              )}
-              {service.bathrooms > 0 && (
-                <div className='flex items-center space-x-1'>
-                  <Bath className='w-3 h-3' />
-                  <span>{service.bathrooms}</span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Rating */}
-          <div className='flex items-center space-x-1 mb-2'>
-            <Star className='w-3 h-3 text-yellow-400 fill-yellow-400' />
-            <span className='text-xs font-medium text-gray-900'>
-              {service.rating}
-            </span>
-            <span className='text-xs text-gray-500'>({service.reviews})</span>
+    <Link href={`/services/${service.id}`} key={service.id}>
+      <Card
+        key={service.id}
+        className={`group cursor-pointer transition-all duration-700 hover:shadow-xl hover:-translate-y-2 overflow-hidden ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+        style={{ transitionDelay: `${index * 100}ms` }}
+        onMouseEnter={() => setHoveredCard(service.id)}
+        onMouseLeave={() => setHoveredCard(null)}
+        onClick={() => handleServiceClick(service.id)}
+      >
+        <CardContent className='p-0 h-full flex flex-col'>
+          {/* Image */}
+          <div className='relative overflow-hidden'>
+            <Image
+              src={service.image || "/placeholder.svg"}
+              alt={service.title}
+              className='w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105'
+              width={300}
+              height={200}
+            />
+            <div className='absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
           </div>
 
-          {/* Duration */}
-          <p className='text-xs text-gray-600 mb-3'>{service.duration}</p>
+          {/* Content */}
+          <div className='p-4 flex-grow flex flex-col'>
+            {/* Title */}
+            <h3 className='text-base font-bold text-gray-900 mb-2 group-hover:text-cyan-600 transition-colors duration-300 line-clamp-2'>
+              {service.title}
+            </h3>
 
-          {/* Price and Book Button */}
-          <div className='mt-auto flex items-center justify-between'>
-            <div className='flex items-center space-x-1'>
-              <span className='text-lg font-bold text-cyan-600'>
-                Starting from ${service.price}
+            {/* Room Info */}
+            {(service.bedrooms > 0 || service.bathrooms > 0) && (
+              <div className='flex items-center space-x-3 mb-2 text-sm text-gray-600'>
+                {service.bedrooms > 0 && (
+                  <div className='flex items-center space-x-1'>
+                    <Bed className='w-3 h-3' />
+                    <span>{service.bedrooms}</span>
+                  </div>
+                )}
+                {service.bathrooms > 0 && (
+                  <div className='flex items-center space-x-1'>
+                    <Bath className='w-3 h-3' />
+                    <span>{service.bathrooms}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Rating */}
+            <div className='flex items-center space-x-1 mb-2'>
+              <Star className='w-3 h-3 text-yellow-400 fill-yellow-400' />
+              <span className='text-xs font-medium text-gray-900'>
+                {service.rating}
               </span>
+              <span className='text-xs text-gray-500'>({service.reviews})</span>
             </div>
-            <Button
-              size='sm'
-              className={`text-xs px-3 py-1 transition-all duration-300 ${
-                hoveredCard === service.id
-                  ? "bg-cyan-600 hover:bg-cyan-700 scale-105"
-                  : "bg-cyan-500 hover:bg-cyan-600"
-              }`}
-              onClick={(e) => handleBookNow(service.id, e)}
-            >
-              Book
-            </Button>
+
+            {/* Duration */}
+            <p className='text-xs text-gray-600 mb-3'>{service.duration}</p>
+
+            {/* Price and Book Button */}
+            <div className='mt-auto flex items-center justify-between'>
+              <div className='flex items-center space-x-1'>
+                <span className='text-lg font-bold text-cyan-600'>
+                  Starting from ${service.price}
+                </span>
+              </div>
+              <Button
+                size='sm'
+                className={`text-xs px-3 py-1 transition-all duration-300 ${
+                  hoveredCard === service.id
+                    ? "bg-cyan-600 hover:bg-cyan-700 scale-105"
+                    : "bg-cyan-500 hover:bg-cyan-600"
+                }`}
+                onClick={(e) => handleBookNow(service.id, e)}
+              >
+                Book
+              </Button>
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 
   return (
