@@ -236,22 +236,25 @@ export default function ContactSection() {
 
           {/* Right Side - Contact Form */}
           <div
-            className={`bg-[#F5F8FD] h-[900px] p-8 lg:p-12 flex flex-col justify-center relative transition-all duration-1000 delay-300 ${
+            className={`bg-[#F5F8FD] md:h-[900px] p-8 lg:p-12 flex flex-col justify-center relative transition-all duration-1000 delay-300 ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 translate-x-10"
             }`}
           >
             {/* Vertical Text */}
-            <div className='bg-[#F5F8FD] py-5 px-8 absolute -left-[270px] rounded-t-4xl top-1/2 -translate-y-1/2 -rotate-90 origin-center'>
+            <div className='hidden md:flex bg-[#F5F8FD] py-5 px-8 absolute -left-[270px] rounded-t-4xl top-1/2 -translate-y-1/2 -rotate-90 origin-center'>
               <span className='text-[#2F4672] font-medium text-[30px] tracking-wider whitespace-nowrap'>
                 Schedule an Appointment
               </span>
             </div>
 
             {/* Form */}
-            <div className='ml-8'>
-              <form onSubmit={handleSubmit} className='space-y-6 max-w-[80%] mx-auto'>
+            <div className='md:ml-8'>
+              <form
+                onSubmit={handleSubmit}
+                className='space-y-6 md:max-w-[80%] mx-auto'
+              >
                 {/* Name Fields */}
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                   <div>

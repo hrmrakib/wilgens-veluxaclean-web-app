@@ -10,7 +10,7 @@ import React from "react";
 const HomePage = () => {
   return (
     <div>
-      <Hero />
+      <Hero /> 
       <AboutSection />
       <ServicesSection />
       <BlogCarousel />

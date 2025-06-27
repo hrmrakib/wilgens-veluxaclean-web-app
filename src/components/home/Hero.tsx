@@ -178,12 +178,12 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className='relative  bg-[#F4F6FB] overflow-hidden'>
+    <section className='relative bg-[#F4F6FB] overflow-hidden'>
       {/* Right side full-screen background */}
       <div className='hidden lg:block absolute bottom-0 -top-32 right-0 w-1/2 min-h-full bg-[url("/home/hero.png")] bg-no-repeat bg-cover z-0' />
 
       {/* Main content inside container */}
-      <div className='relative container mx-auto flex flex-col lg:flex-row min-h-screen z-10'>
+      <div className='relative container mx-auto flex flex-col lg:flex-row lg:min-h-screen z-10'>
         {/* Left Content */}
 
         <div
@@ -194,12 +194,12 @@ export default function Hero() {
           }`}
         >
           {/* Services Navigation */}
-          <nav className='flex flex-wrap gap-4 text-sm'>
+          <nav className='flex flex-wrap gap-2 md:gap-4 text-sm'>
             {services.map((service, index) => (
               <React.Fragment key={service.name}>
                 <Link
                   href={service.href}
-                  className='text-[#B0B2B9] hover:text-[#B0B2B9] text-xl font-bold transition-colors duration-200'
+                  className='text-[#B0B2B9] hover:text-[#B0B2B9] text-sm md:text-xl font-bold transition-colors duration-200'
                 >
                   {service.name}
                 </Link>
@@ -212,7 +212,7 @@ export default function Hero() {
 
           {/* Main Heading */}
           <div className='space-y-4'>
-            <h1 className='relative text-4xl md:text-5xl lg:text-[56px] font-bold text-[#4A4A4A] leading-tight'>
+            <h1 className='relative text-[32px] md:text-5xl lg:text-[56px] font-bold text-[#4A4A4A] leading-tight px-2'>
               Happiness Is Freshly{" "}
               <span className='text-[#15B2F5] relative'>
                 Cleaning
@@ -251,7 +251,7 @@ export default function Hero() {
           </div>
 
           {/* CTA Buttons */}
-          <div className='flex flex-col sm:flex-row gap-4'>
+          <div className='flex items-center gap-4'>
             <Button
               variant='outline'
               size='lg'
@@ -287,21 +287,6 @@ export default function Hero() {
             </Button>
           </div>
         </div>
-
-        {/* Right Content */}
-        {/* <div
-          className={`hidden lg:flex lg:w-1/2 items-center justify-center relative transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
-          }`}
-        >
-          <Image
-            src='/home/hero.png'
-            alt='Professional cleaner in blue uniform with cleaning supplies'
-            className='w-[512px] h-[812px]'
-            width={480}
-            height={480}
-          />
-        </div> */}
       </div>
     </section>
   );

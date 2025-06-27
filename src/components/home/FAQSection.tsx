@@ -75,7 +75,7 @@ export default function FAQSection() {
   };
 
   return (
-    <section id='faq-section' className='py-16 lg:py-24 bg-[#FFFFFF]'>
+    <section id='faq-section' className='py-16 lg:py-24 bg-[#FFFFFF] px-6 md:px-0'>
       <div className='container mx-auto'>
         <div className='grid lg:grid-cols-2 gap-12 lg:gap-16'>
           {/* Left Side - Header */}

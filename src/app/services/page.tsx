@@ -4,7 +4,7 @@ import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Bed, Bath, Star, ArrowRight, Minus, Plus } from "lucide-react";
+import { Bed, Bath, Star, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -492,17 +492,17 @@ export default function ServicesPage() {
             }`}
           >
             <div className='bg-white rounded-lg shadow-sm p-6 sticky top-8'>
-              <div className='flex items-center justify-between mb-5'>
+              <div
+                className={`flex items-center justify-between ${
+                  openCategory ? "pb-2.5" : "pb-0"
+                }`}
+              >
                 <h2 className='text-xl font-bold text-gray-900'>Categories</h2>
                 <p className='flex md:hidden cursor-pointer'>
                   {openCategory ? (
-                    <span onClick={() => setOpenCategory(false)}>
-                      <Minus />
-                    </span>
+                    <span onClick={() => setOpenCategory(false)}>hide</span>
                   ) : (
-                    <span onClick={() => setOpenCategory(true)}>
-                      <Plus />
-                    </span>
+                    <span onClick={() => setOpenCategory(true)}>show</span>
                   )}
                 </p>
               </div>

@@ -48,7 +48,7 @@ const benefits = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit eiusmod tempor incididunt",
   },
 ];
-
+ 
 export default function AboutSection() {
   const [isVisible, setIsVisible] = React.useState(false);
   const [hoveredFeature, setHoveredFeature] = React.useState<number | null>(
@@ -81,7 +81,7 @@ export default function AboutSection() {
     <section id='about-section' className='py-16 lg:py-24 bg-gray-50'>
       <div className='container mx-auto'>
         {/* Top Features Row */}
-        <div className='max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20'>
+        <div className='max-w-[1100px] mx-auto grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-14 mb-20'>
           {features.map((feature, index) => (
             <div
               key={index}
@@ -94,7 +94,7 @@ export default function AboutSection() {
               onMouseEnter={() => setHoveredFeature(index)}
               onMouseLeave={() => setHoveredFeature(null)}
             >
-              <div className='flex items-center space-x-5'>
+              <div className='flex items-center justify-center space-x-2.5 md:space-x-5'>
                 <div
                   className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 ${
                     hoveredFeature === index
@@ -122,28 +122,27 @@ export default function AboutSection() {
         </div>
 
         {/* Main Content */}
-        <div className='flex gap-16 items-center justify-between'>
+        <div className='flex flex-col lg:flex-row gap-16 items-center justify-between px-5 md:px-0'>
           {/* Left Side - Image Collage */}
           <div
-            className={`w-1/2 relative transition-all duration-1000 ${
+            className={`lg:w-1/2 relative transition-all duration-1000 ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 -translate-x-10"
             }`}
           >
-            <div className='relative w-full h-[600px] lg:h-[500px]'>
+            <div className='relative w-full lg:h-[600px]'>
               {/* Main large image - woman vacuuming sofa */}
-              <div className=' '>
-                <div className='h-[600px] overflow-hidden'>
-                  <div className='h-full flex items-center justify-center relative'>
-                    <Image
-                      src='/about.png'
-                      alt='Professional cleaner vacuuming blue sofa in modern living room'
-                      className='w-full h-full object-cover'
-                      width={975}
-                      height={500}
-                    />
-                  </div>
+
+              <div className='w-full lg:h-[600px] overflow-hidden'>
+                <div className='h-full flex items-center justify-center relative'>
+                  <Image
+                    src='/about.png'
+                    alt='Professional cleaner vacuuming blue sofa in modern living room'
+                    className='w-full h-full object-cover'
+                    width={975}
+                    height={500}
+                  />
                 </div>
               </div>
             </div>
@@ -151,7 +150,7 @@ export default function AboutSection() {
 
           {/* Right Side - Content */}
           <div
-            className={`w-1/2 max-w-[570px] space-y-8 transition-all duration-1000 delay-300 ${
+            className={`lg:w-1/2 max-w-[570px] space-y-8 transition-all duration-1000 delay-300 ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 translate-x-10"

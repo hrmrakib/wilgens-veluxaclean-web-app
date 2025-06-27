@@ -244,10 +244,6 @@ export default function AboutPageSection() {
                   </div>
                 </div>
               </Card>
-
-              {/* Background Decorative Elements */}
-              {/* <div className='absolute -top-8 -left-8 w-16 h-16 bg-cyan-100 rounded-full opacity-50 -z-10' />
-              <div className='absolute -bottom-4 -right-8 w-12 h-12 bg-orange-100 rounded-full opacity-50 -z-10' /> */}
             </div>
           </div>
         </div>

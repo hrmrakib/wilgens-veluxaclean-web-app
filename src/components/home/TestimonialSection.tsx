@@ -79,10 +79,10 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section id='testimonials-section' className='py-16 lg:py-24 bg-white'>
+    <section id='testimonials-section' className='py-16 lg:py-24 bg-white px-6 md:px-0'>
       <div className='container mx-auto px-4 max-w-7xl'>
         {/* Header Section */}
-        <div className='flex items-center justify-between gap-12 mb-16'>
+        <div className='flex flex-col md:flex-row items-center justify-between gap-12 mb-16'>
           {/* Left Side - Main Heading */}
           <div
             className={`transition-all duration-1000 ${

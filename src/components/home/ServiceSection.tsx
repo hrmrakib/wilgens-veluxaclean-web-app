@@ -83,7 +83,7 @@ export default function ServicesSection() {
   return (
     <section
       id='services-section'
-      className='py-16 lg:py-24 bg-gray-50'
+      className='py-16 lg:py-24 bg-gray-50 px-6 md:px-0'
       style={{
         background:
           "radial-gradient(61.56% 61.56% at 50% 50%, rgba(21, 178, 245, 0.0936) 0%, rgba(110, 206, 218, 0.0468) 100%)",
