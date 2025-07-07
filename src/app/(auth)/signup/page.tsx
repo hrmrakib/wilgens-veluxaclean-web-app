@@ -6,6 +6,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
+import { useSignupMutation } from "@/redux/features/auth/authAPI";
 
 interface SignupFormData {
   name: string;
@@ -30,6 +31,7 @@ export default function SignupPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [signup] = useSignupMutation();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -68,21 +70,9 @@ export default function SignupPage() {
     setErrors({});
 
     try {
-      // Simulate API call
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate registration logic
-          if (formData.email === "existing@example.com") {
-            reject(new Error("Email already exists"));
-          } else {
-            resolve("success");
-          }
-        }, 2000);
-      });
+      const response = await signup(formData).unwrap();
 
-      // Handle successful registration
-      console.log("Registration successful!", formData);
-      // Redirect to login page or dashboard
+      console.log("Registration successful!", response);
     } catch (error) {
       if (error instanceof Error && error.message === "Email already exists") {
         setErrors({

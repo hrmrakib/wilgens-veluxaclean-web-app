@@ -23,7 +23,7 @@ const navigationItems = [
   { name: "Services", href: "/services" },
   { name: "AI Chat", href: "/ai-chat" },
   { name: "About Us", href: "/about" },
-  { name: "Our Blog", href: "/blog" },
+  { name: "Our Blog", href: "/blog" },        
   { name: "Contact", href: "/contact" },
 ];
 
@@ -32,7 +32,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   if (pathname === "/ai-chat" || pathname === "/login") {
-    return null; // Hide the navbar on the login page
+    return null;
   }
 
   return (

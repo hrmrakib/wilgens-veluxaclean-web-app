@@ -6,6 +6,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Eye, EyeOff, Check } from "lucide-react";
+import { useLoginMutation } from "@/redux/features/auth/authAPI";
 
 interface LoginFormData {
   email: string;
@@ -29,6 +30,7 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [login] = useLoginMutation();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -58,24 +60,11 @@ export default function LoginPage() {
     setErrors({});
 
     try {
-      // Simulate API call
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate login logic
-          if (
-            formData.email === "demo@example.com" &&
-            formData.password === "password123"
-          ) {
-            resolve("success");
-          } else {
-            reject(new Error("Invalid credentials"));
-          }
-        }, 2000);
-      });
-
-      // Handle successful login
-      console.log("Login successful!");
-      // Redirect to dashboard or home page
+      const response = await login({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
+      console.log("Login successful!", response);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setErrors({ general: "Invalid email or password. Please try again." });
