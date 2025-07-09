@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Eye, EyeOff, Check } from "lucide-react";
 import { useLoginMutation } from "@/redux/features/auth/authAPI";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface LoginFormData {
   email: string;
@@ -31,6 +33,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [login] = useLoginMutation();
+  const router = useRouter();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -64,13 +67,45 @@ export default function LoginPage() {
         email: formData.email,
         password: formData.password,
       }).unwrap();
+
+      if (response?.success) {
+        localStorage.setItem("accessToken", response?.data?.accessToken);
+        localStorage.setItem("refreshToken", response?.data?.refreshToken);
+        localStorage.setItem("VeluxaCleanUser", JSON.stringify(response?.data?.user));
+        toast.success(response?.message);
+        router.push("/");
+      }
       console.log("Login successful!", response);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+    } catch (error: unknown) {
+      if (
+        error &&
+        typeof error === "object" &&
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in (error.data as { message?: string })
+      ) {
+        toast.error(
+          (error as { data: { message?: string } }).data.message ||
+            "An error occurred."
+        );
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+
       setErrors({ general: "Invalid email or password. Please try again." });
     } finally {
       setIsLoading(false);
     }
+
+    // catch (error) {
+    //   toast.error(error?.data?.message);
+    //   setErrors({ general: "Invalid email or password. Please try again." });
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   const handleInputChange = (
@@ -87,6 +122,8 @@ export default function LoginPage() {
     console.log(`Login with ${provider}`);
     // Implement social login logic here
   };
+
+  console.log(formData.email, formData.password);
 
   return (
     <div className='min-h-screen bg-white flex'>

@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import Providers from "@/redux/features/Providers";
+import { Toaster } from "sonner";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -22,12 +23,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang='en' upword-verified='true'>
       <body
         className={`${plusJakartaSans.variable} antialiased`}
         style={{ fontFamily: "var(--font-plus-jakarta-sans)" }}
+        suppressHydrationWarning
       >
         <Providers>
+          <Toaster position='top-center' />
           <Navbar />
           {children}
           <Footer />

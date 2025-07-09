@@ -337,16 +337,16 @@ export default function VeluxaCleanChat() {
                   <path
                     d='M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z'
                     stroke='#F5FDFF'
-                    stroke-width='1.5'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
+                    strokeWidth='1.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
                   />
                   <path
                     d='M22 22L20 20'
                     stroke='#F5FDFF'
-                    stroke-width='1.5'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
+                    strokeWidth='1.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
                   />
                 </svg>
               </Button>
@@ -366,25 +366,25 @@ export default function VeluxaCleanChat() {
                   <path
                     d='M11 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V13'
                     stroke='#F5FDFF'
-                    stroke-width='1.5'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
+                    strokeWidth='1.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
                   />
                   <path
                     d='M16.0399 3.02123L8.15988 10.9012C7.85988 11.2012 7.55988 11.7912 7.49988 12.2212L7.06988 15.2312C6.90988 16.3212 7.67988 17.0812 8.76988 16.9312L11.7799 16.5012C12.1999 16.4412 12.7899 16.1412 13.0999 15.8412L20.9799 7.96123C22.3399 6.60123 22.9799 5.02123 20.9799 3.02123C18.9799 1.02123 17.3999 1.66123 16.0399 3.02123Z'
                     stroke='#F5FDFF'
-                    stroke-width='1.5'
+                    strokeWidth='1.5'
                     stroke-miterlimit='10'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
                   />
                   <path
                     d='M14.9102 4.14844C15.5802 6.53844 17.4502 8.40844 19.8502 9.08844'
                     stroke='#F5FDFF'
-                    stroke-width='1.5'
+                    strokeWidth='1.5'
                     stroke-miterlimit='10'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
                   />
                 </svg>
               </Button>
@@ -489,30 +489,30 @@ export default function VeluxaCleanChat() {
                                 <path
                                   d='M19.5554 8.88672C19.5898 10.3162 19.3303 11.7382 18.7919 13.0712C18.2535 14.4042 17.4468 15.6221 16.4179 16.6552C15.389 17.6883 14.1582 18.5163 12.7958 19.0917C11.4335 19.6671 9.96636 19.9787 8.47852 20.0087'
                                   stroke='#224443'
-                                  stroke-width='2'
+                                  strokeWidth='2'
                                   stroke-miterlimit='10'
-                                  stroke-linecap='round'
+                                  strokeLinecap='round'
                                 />
                                 <path
                                   d='M19.5557 8.88672C19.5214 10.3162 19.7809 11.7382 20.3193 13.0712C20.8576 14.4042 21.6644 15.6221 22.6933 16.6552C23.7222 17.6883 24.953 18.5163 26.3154 19.0917C27.6777 19.6671 29.1448 19.9787 30.6327 20.0087'
                                   stroke='#224443'
-                                  stroke-width='2'
+                                  strokeWidth='2'
                                   stroke-miterlimit='10'
-                                  stroke-linecap='round'
+                                  strokeLinecap='round'
                                 />
                                 <path
                                   d='M19.5554 31.1297C19.5898 29.7002 19.3303 28.2783 18.7919 26.9453C18.2535 25.6122 17.4468 24.3943 16.4179 23.3613C15.389 22.3282 14.1582 21.5002 12.7958 20.9248C11.4335 20.3493 9.96636 20.0378 8.47852 20.0078'
                                   stroke='#224443'
-                                  stroke-width='2'
+                                  strokeWidth='2'
                                   stroke-miterlimit='10'
-                                  stroke-linecap='round'
+                                  strokeLinecap='round'
                                 />
                                 <path
                                   d='M19.5557 31.1297C19.5214 29.7002 19.7809 28.2783 20.3193 26.9453C20.8576 25.6122 21.6644 24.3943 22.6933 23.3613C23.7222 22.3282 24.953 21.5002 26.3154 20.9248C27.6777 20.3493 29.1448 20.0378 30.6327 20.0078'
                                   stroke='#224443'
-                                  stroke-width='2'
+                                  strokeWidth='2'
                                   stroke-miterlimit='10'
-                                  stroke-linecap='round'
+                                  strokeLinecap='round'
                                 />
                                 <ellipse
                                   cx='19.5557'

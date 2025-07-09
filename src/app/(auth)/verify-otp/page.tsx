@@ -5,8 +5,10 @@ import type React from "react";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { ArrowLeft, CheckCircle, RefreshCw } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowLeft, CheckCircle } from "lucide-react";
+import { useVerifyOtpMutation } from "@/redux/features/auth/authAPI";
+import { toast } from "sonner";
 
 interface VerificationState {
   code: string[];
@@ -23,7 +25,7 @@ export default function VerifyEmailPage() {
   const email = searchParams.get("email") || "creativeitem@gmail.com";
 
   const [state, setState] = useState<VerificationState>({
-    code: ["", "", "", ""],
+    code: ["", "", "", "", "", ""], // 6-digit code
     email,
     isLoading: false,
     isResending: false,
@@ -33,7 +35,9 @@ export default function VerifyEmailPage() {
   });
 
   const [isSuccess, setIsSuccess] = useState(false);
-  const inputRefs = useRef<(HTMLInputElement | null | undefined)[]>([]);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [verifyOtp] = useVerifyOtpMutation();
+  const router = useRouter();
 
   // Countdown timer for resend functionality
   useEffect(() => {
@@ -75,7 +79,7 @@ export default function VerifyEmailPage() {
     }));
 
     // Auto-focus next input
-    if (value && index < 3) {
+    if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -90,21 +94,21 @@ export default function VerifyEmailPage() {
     }
 
     // Handle paste
-    if (e.key === "v" && (e.ctrlKey || e.metaKey)) {
+    if ((e.ctrlKey || e.metaKey) && e.key === "v") {
       e.preventDefault();
       navigator.clipboard.readText().then((text) => {
-        const digits = text.replace(/\D/g, "").slice(0, 4).split("");
+        const digits = text.replace(/\D/g, "").slice(0, 6).split("");
         const newCode = [...state.code];
 
         digits.forEach((digit, i) => {
-          if (i < 4) newCode[i] = digit;
+          if (i < 6) newCode[i] = digit;
         });
 
         setState((prev) => ({ ...prev, code: newCode }));
 
         // Focus the next empty input or the last input
         const nextEmptyIndex = newCode.findIndex((code) => !code);
-        const focusIndex = nextEmptyIndex === -1 ? 3 : nextEmptyIndex;
+        const focusIndex = nextEmptyIndex === -1 ? 5 : nextEmptyIndex;
         inputRefs.current[focusIndex]?.focus();
       });
     }
@@ -115,10 +119,10 @@ export default function VerifyEmailPage() {
 
     const codeString = state.code.join("");
 
-    if (codeString.length !== 4) {
+    if (codeString.length !== 6) {
       setState((prev) => ({
         ...prev,
-        error: "Please enter the complete 4-digit code",
+        error: "Please enter the complete 6-digit code",
       }));
       return;
     }
@@ -126,23 +130,17 @@ export default function VerifyEmailPage() {
     setState((prev) => ({ ...prev, isLoading: true, error: "" }));
 
     try {
-      // Simulate API call
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate verification logic
-          if (codeString === "0000") {
-            reject(new Error("Invalid verification code"));
-          } else if (codeString === "9999") {
-            reject(new Error("Verification code has expired"));
-          } else {
-            resolve("success");
-          }
-        }, 2000);
-      });
+      const response = await verifyOtp({
+        email,
+        oneTimeCode: Number(codeString),
+      }).unwrap();
 
+      if (response?.success) {
+        toast.success("Verification successful!");
+        router.push("/login");
+      }
       // Handle successful verification
       setIsSuccess(true);
-      console.log("Email verified successfully");
     } catch (error) {
       if (error instanceof Error) {
         setState((prev) => ({ ...prev, error: error.message }));
@@ -167,7 +165,7 @@ export default function VerifyEmailPage() {
       // Reset state for new code
       setState((prev) => ({
         ...prev,
-        code: ["", "", "", ""],
+        code: ["", "", "", "", "", ""],
         isResending: false,
         timeLeft: 60,
         canResend: false,
@@ -175,10 +173,7 @@ export default function VerifyEmailPage() {
 
       // Focus first input
       inputRefs.current[0]?.focus();
-
-      console.log("Verification code resent");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+    } catch {
       setState((prev) => ({
         ...prev,
         isResending: false,
@@ -229,6 +224,7 @@ export default function VerifyEmailPage() {
     );
   }
 
+  console.log(email, "email", typeof state.code.join(""), "code");
   return (
     <div className='min-h-screen bg-white flex'>
       {/* Left Side - Verification Form */}
@@ -249,7 +245,7 @@ export default function VerifyEmailPage() {
               Verify Your Email
             </h1>
             <p className='text-gray-600 text-lg'>
-              Enter the 4 digit code sent to{" "}
+              Enter the 6 digit code sent to{" "}
               <span className='font-medium text-gray-900'>{state.email}</span>
             </p>
           </div>
@@ -269,7 +265,9 @@ export default function VerifyEmailPage() {
                 {state.code.map((digit, index) => (
                   <input
                     key={index}
-                    ref={(el) => (inputRefs.current[index] = el)}
+                    ref={(el) => {
+                      inputRefs.current[index] = el;
+                    }}
                     type='text'
                     inputMode='numeric'
                     maxLength={1}
@@ -289,42 +287,46 @@ export default function VerifyEmailPage() {
                     placeholder='0'
                   />
                 ))}
-
-                {/* Resend Button */}
-                <button
-                  type='button'
-                  onClick={handleResendCode}
-                  disabled={!state.canResend || state.isResending}
-                  className={`
-                    ml-4 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200
-                    focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2
-                    ${
-                      state.canResend && !state.isResending
-                        ? "bg-teal-100 text-teal-700 hover:bg-teal-200"
-                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    }
-                  `}
-                >
-                  {state.isResending ? (
-                    <RefreshCw className='w-4 h-4 animate-spin' />
-                  ) : state.canResend ? (
-                    "Resend code"
-                  ) : (
-                    `Resend (${state.timeLeft}s)`
-                  )}
-                </button>
               </div>
+
+              {/* Resend Code Section */}
+              {/* <div className='text-center mt-4'>
+                {state.canResend ? (
+                  <button
+                    type='button'
+                    onClick={handleResendCode}
+                    disabled={state.isResending}
+                    className={`text-teal-600 hover:text-teal-700 font-medium transition-colors duration-200
+                      ${
+                        state.isResending ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                  >
+                    {state.isResending ? (
+                      <span className='flex items-center justify-center'>
+                        <RefreshCw className='w-4 h-4 mr-2 animate-spin' />
+                        Resending...
+                      </span>
+                    ) : (
+                      "Resend verification code"
+                    )}
+                  </button>
+                ) : (
+                  <p className='text-gray-500 text-sm'>
+                    Resend code in {state.timeLeft} seconds
+                  </p>
+                )}
+              </div> */}
             </div>
 
             {/* Verify Button */}
             <button
               type='submit'
-              disabled={state.isLoading || state.code.join("").length !== 4}
+              disabled={state.isLoading || state.code.join("").length !== 6}
               className={`
                 w-full py-3 px-4 rounded-full font-medium transition-all duration-200
                 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2
                 ${
-                  state.isLoading || state.code.join("").length !== 4
+                  state.isLoading || state.code.join("").length !== 6
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-teal-500 hover:bg-teal-600 text-white transform hover:scale-[1.02]"
                 }

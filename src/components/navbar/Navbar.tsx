@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,23 +16,41 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const navigationItems = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
   { name: "AI Chat", href: "/ai-chat" },
   { name: "About Us", href: "/about" },
-  { name: "Our Blog", href: "/blog" },        
+  { name: "Our Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
 ];
 
+type User = { name: string } | null;
+
 export default function Navbar() {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<User>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const user = localStorage.getItem("VeluxaCleanUser");
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, [user]);
 
   if (pathname === "/ai-chat" || pathname === "/login") {
     return null;
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("VeluxaCleanUser");
+    setUser(null);
+  };
 
   return (
     <header className='sticky top-0 z-50 w-full bg-[#F4F6FB] '>
@@ -89,13 +106,23 @@ export default function Navbar() {
 
           {/* Desktop Login Button */}
           <div className='hidden lg:flex'>
-            <Button
-              variant='outline'
-              className='bg-white text-lg text-[#4A4A4A] border-[#6ECEDA] !rounded-full hover:bg-gray-50'
-              asChild
-            >
-              <Link href='/login'>Login</Link>
-            </Button>
+            {user ? (
+              <Button
+                onClick={() => handleLogout()}
+                variant='outline'
+                className='bg-transparent text-lg text-[#4A4A4A] border-[#c55b48] !rounded-full hover:bg-gray-50 cursor-pointer'
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button
+                variant='outline'
+                className='bg-white text-lg text-[#4A4A4A] border-[#6ECEDA] !rounded-full hover:bg-gray-50'
+                asChild
+              >
+                <Link href='/login'>Login</Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu */}
