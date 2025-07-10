@@ -9,6 +9,7 @@ const AuthenticationAPI = baseAPI.injectEndpoints({
         body,
       }),
     }),
+
     signup: builder.mutation({
       query: (data) => ({
         url: "/user/create-user",
@@ -48,6 +49,17 @@ const AuthenticationAPI = baseAPI.injectEndpoints({
         body,
       }),
     }),
+
+    resetPassword: builder.mutation({
+      query: (body) => ({
+        url: "/auth/reset-password",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -57,4 +69,6 @@ export const {
   useVerifyOtpMutation,
   useSendOtpMutation,
   useResendOtpMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
 } = AuthenticationAPI;

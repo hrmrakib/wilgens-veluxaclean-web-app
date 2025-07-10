@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/navigation-menu";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/features/user/userSlice";
+import { setCurrentUser } from "@/redux/features/auth/userSlice";
 
 const navigationItems = [
   { name: "Home", href: "/" },
@@ -33,23 +36,22 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User>(null);
   const pathname = usePathname();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const user = localStorage.getItem("VeluxaCleanUser");
     if (user) {
+      // dispatch(setCurrentUser(JSON.parse(user)));
       setUser(JSON.parse(user));
     }
-  }, [user]);
+  }, []);
 
   if (pathname === "/ai-chat" || pathname === "/login") {
     return null;
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("VeluxaCleanUser");
-    setUser(null);
+    dispatch(logout());
   };
 
   return (

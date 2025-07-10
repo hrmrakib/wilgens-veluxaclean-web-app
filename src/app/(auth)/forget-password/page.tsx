@@ -5,7 +5,10 @@ import type React from "react";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
+import { ArrowLeft, Mail } from "lucide-react";
+import { useForgotPasswordMutation } from "@/redux/features/auth/authAPI";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface ForgotPasswordFormData {
   email: string;
@@ -23,8 +26,8 @@ export default function ForgotPasswordPage() {
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-
+  const [forgotPassword] = useForgotPasswordMutation();
+  const router = useRouter();
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
@@ -47,20 +50,15 @@ export default function ForgotPasswordPage() {
     setErrors({});
 
     try {
-      // Simulate API call
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate password reset logic
-          if (formData.email === "nonexistent@example.com") {
-            reject(new Error("Email not found"));
-          } else {
-            resolve("success");
-          }
-        }, 2000);
-      });
+      const response = await forgotPassword(formData).unwrap();
+
+      if (response?.success) {
+        toast.success(response?.message);
+        router.push("/verify-email/?email=" + formData.email);
+      }
+      console.log(response);
 
       // Handle successful password reset request
-      setIsSuccess(true);
       console.log("Password reset email sent to:", formData.email);
     } catch (error) {
       if (error instanceof Error && error.message === "Email not found") {
@@ -79,90 +77,6 @@ export default function ForgotPasswordPage() {
       setErrors((prev) => ({ ...prev, email: undefined }));
     }
   };
-
-  const handleResendEmail = () => {
-    setIsSuccess(false);
-    setFormData({ email: "" });
-    setErrors({});
-  };
-
-  if (isSuccess) {
-    return (
-      <div className='min-h-screen bg-white flex'>
-        {/* Left Side - Success Message */}
-        <div className='flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8'>
-          <div className='max-w-md w-full text-center space-y-8'>
-            {/* Success Icon */}
-            <div className='mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center'>
-              <CheckCircle className='w-8 h-8 text-green-600' />
-            </div>
-
-            {/* Success Message */}
-            <div>
-              <h1 className='text-3xl lg:text-4xl font-bold text-gray-900 mb-4'>
-                Check your email
-              </h1>
-              <p className='text-gray-600 text-lg mb-2'>
-                We&apos;ve sent password reset instructions to:
-              </p>
-              <p className='text-gray-900 font-medium text-lg mb-6'>
-                {formData.email}
-              </p>
-              <p className='text-gray-600'>
-                Didn&apos;t receive the email? Check your spam folder or try
-                again.
-              </p>
-            </div>
-
-            {/* Action Buttons */}
-            <div className='space-y-4'>
-              <button
-                onClick={handleResendEmail}
-                className='w-full py-3 px-4 bg-teal-500 text-white font-medium rounded-full hover:bg-teal-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2'
-              >
-                Try another email
-              </button>
-
-              <Link
-                href='/login'
-                className='w-full inline-flex items-center justify-center py-3 px-4 border-2 border-gray-200 text-gray-700 font-medium rounded-full hover:border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2'
-              >
-                <ArrowLeft className='w-4 h-4 mr-2' />
-                Back to login
-              </Link>
-            </div>
-
-            {/* Email Instructions */}
-            <div className='bg-blue-50 rounded-lg p-4 text-left'>
-              <h3 className='text-sm font-medium text-blue-900 mb-2'>
-                What&apos;s next?
-              </h3>
-              <ul className='text-sm text-blue-800 space-y-1'>
-                <li>• Check your email inbox and spam folder</li>
-                <li>• Click the reset link in the email</li>
-                <li>• Create a new secure password</li>
-                <li>• Log in with your new password</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Illustration */}
-        <div className='hidden lg:flex flex-1 items-center justify-center bg-gray-50 p-8'>
-          <div className='max-w-lg'>
-            <Image
-              src='/images/cleaner-illustration.png'
-              alt='Professional cleaner with tools'
-              width={500}
-              height={600}
-              className='w-full h-auto'
-              priority
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className='min-h-screen bg-white flex'>
@@ -250,7 +164,10 @@ export default function ForgotPasswordPage() {
           {/* Login Options */}
           <div className='text-center flex justify-center gap-1'>
             <p className='text-gray-600 mb-4'>Remember your password?</p>
-            <Link href='/login' className='text-teal-500 font-medium hover:text-teal-600 transition-colors'>
+            <Link
+              href='/login'
+              className='text-teal-500 font-medium hover:text-teal-600 transition-colors'
+            >
               Login
             </Link>
             <p>instead</p>
