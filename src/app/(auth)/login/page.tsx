@@ -9,6 +9,8 @@ import { Eye, EyeOff, Check } from "lucide-react";
 import { useLoginMutation } from "@/redux/features/auth/authAPI";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { setCurrentUser } from "@/redux/features/user/userSlice";
+import { useDispatch } from "react-redux";
 
 interface LoginFormData {
   email: string;
@@ -34,6 +36,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [login] = useLoginMutation();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -71,7 +74,11 @@ export default function LoginPage() {
       if (response?.success) {
         localStorage.setItem("accessToken", response?.data?.accessToken);
         localStorage.setItem("refreshToken", response?.data?.refreshToken);
-        localStorage.setItem("VeluxaCleanUser", JSON.stringify(response?.data?.user));
+        dispatch(setCurrentUser(response?.data?.user));
+        localStorage.setItem(
+          "VeluxaCleanUser",
+          JSON.stringify(response?.data?.user)
+        );
         toast.success(response?.message);
         router.push("/");
       }

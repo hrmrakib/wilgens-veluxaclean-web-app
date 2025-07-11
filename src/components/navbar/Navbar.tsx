@@ -17,9 +17,10 @@ import {
 } from "@/components/ui/navigation-menu";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/features/user/userSlice";
 import { setCurrentUser } from "@/redux/features/auth/userSlice";
+import { RootState } from "@/redux/store/store";
 
 const navigationItems = [
   { name: "Home", href: "/" },
@@ -30,29 +31,30 @@ const navigationItems = [
   { name: "Contact", href: "/contact" },
 ];
 
-type User = { name: string } | null;
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState<User>(null);
   const pathname = usePathname();
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.user);
 
   useEffect(() => {
     const user = localStorage.getItem("VeluxaCleanUser");
     if (user) {
-      // dispatch(setCurrentUser(JSON.parse(user)));
-      setUser(JSON.parse(user));
+      dispatch(setCurrentUser(JSON.parse(user)));
+      // setUser(JSON.parse(user));
     }
-  }, []);
+  }, [dispatch]);
 
   if (pathname === "/ai-chat" || pathname === "/login") {
     return null;
   }
 
   const handleLogout = () => {
+    console.log("Logout clicked");
     dispatch(logout());
   };
+
+  console.log("user", user);
 
   return (
     <header className='sticky top-0 z-50 w-full bg-[#F4F6FB] '>

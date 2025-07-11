@@ -26,11 +26,11 @@ const userSlice = createSlice({
     setCurrentUser: (state, action: { payload: IUser }) => {
       state.user = action.payload;
     },
-    logout: () => {
+    logout: (state) => {
+      state.user = null;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("VeluxaCleanUser");
-      initialState.user = null;
     },
   },
 });
