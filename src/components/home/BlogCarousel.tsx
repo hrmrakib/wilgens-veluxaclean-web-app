@@ -1,9 +1,10 @@
 "use client";
 
-import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { useGetAllBlogsQuery } from "@/redux/features/blog/blogAPI";
 import { Calendar } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 const blogPosts = [
   {
@@ -68,11 +69,22 @@ const blogPosts = [
   },
 ];
 
+interface IBlogPost {
+  _id: string;
+  title: string;
+  description: string;
+  image: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function BlogCarousel() {
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [isAutoPlaying, setIsAutoPlaying] = React.useState(true);
-  const carouselRef = React.useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const { data: blogs } = useGetAllBlogsQuery({});
+  console.log(blogs?.data?.result);
 
   // Get number of visible cards based on screen size
   const getVisibleCards = () => {
@@ -82,9 +94,9 @@ export default function BlogCarousel() {
     return 3;
   };
 
-  const [visibleCards, setVisibleCards] = React.useState(3);
+  const [visibleCards, setVisibleCards] = useState(3);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       setVisibleCards(getVisibleCards());
     };
@@ -94,7 +106,7 @@ export default function BlogCarousel() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -117,7 +129,7 @@ export default function BlogCarousel() {
   }, []);
 
   // Auto-play functionality
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isAutoPlaying) return;
 
     const interval = setInterval(() => {
@@ -216,9 +228,9 @@ export default function BlogCarousel() {
                 }%)`,
               }}
             >
-              {blogPosts.map((post, index) => (
+              {blogs?.data?.result?.map((post: IBlogPost, index: number) => (
                 <div
-                  key={post.id}
+                  key={post._id}
                   className={`flex-shrink-0 px-4 transition-all duration-700 ${
                     visibleCards === 1
                       ? "w-full"
@@ -234,13 +246,13 @@ export default function BlogCarousel() {
                 >
                   <Card
                     className='group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 h-full'
-                    onClick={() => handleCardClick(post.href)}
+                    onClick={() => handleCardClick(post._id)}
                   >
                     <CardContent className='p-0 h-full flex flex-col'>
                       {/* Image */}
                       <div className='relative overflow-hidden rounded-t-lg'>
                         <Image
-                          src={post.image || "/placeholder.svg"}
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${post.image}`}
                           alt={post.title}
                           className='w-full h-48 md:h-72 object-cover transition-transform duration-300 group-hover:scale-105'
                           width={400}
@@ -254,7 +266,7 @@ export default function BlogCarousel() {
                         {/* Date */}
                         <div className='flex items-center text-[#545971] text-lg mb-3'>
                           <Calendar className='w-4 h-4 mr-2' />
-                          {post.date}
+                          {post.createdAt.split("T")[0]}
                         </div>
 
                         {/* Title */}
@@ -268,11 +280,11 @@ export default function BlogCarousel() {
                         </p>
 
                         {/* Category Tag */}
-                        <div className='mt-auto'>
+                        {/* <div className='mt-auto'>
                           <span className='inline-block px-3 py-1 bg-[#DDF6FF] text-gray-700 text-sm rounded-full font-medium group-hover:bg-white group-hover:text-cyan-700 transition-colors duration-300'>
-                            {post.category}
+                            {post.description}
                           </span>
-                        </div>
+                        </div> */}
                       </div>
                     </CardContent>
                   </Card>

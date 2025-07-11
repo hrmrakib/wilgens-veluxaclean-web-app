@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
-import { useGetAllServicesQuery } from "@/redux/features/servioceAPI";
+import { useGetAllServicesQuery } from "@/redux/features/service/servioceAPI";
 import { useEffect, useState } from "react";
 
 interface IService {
