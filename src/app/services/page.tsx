@@ -27,7 +27,7 @@ export default function ServicesPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<string | number | null>(null);
   const [openCategory, setOpenCategory] = useState<boolean>(true);
-  const { data: services, isLoading } = useGetAllServicesQuery({});
+  const { data: services } = useGetAllServicesQuery({});
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -50,10 +50,6 @@ export default function ServicesPage() {
       }
     };
   }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   const scrollToCategory = (categoryId: string) => {
     setActiveCategory(categoryId);
@@ -113,7 +109,6 @@ export default function ServicesPage() {
     console.log(`Book now clicked for service ${serviceId}`);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderServiceCard = (service: IService, index: number) => (
     <Link href={`/services/${service._id}`} key={service._id}>
       <Card
@@ -248,7 +243,7 @@ export default function ServicesPage() {
               }`}
             >
               <h1 className='text-3xl md:text-4xl font-bold text-gray-900 mb-2'>
-                Our Services 
+                Our Services
               </h1>
               <p className='text-gray-600'>
                 Comprehensive cleaning solutions for every need. Browse our
