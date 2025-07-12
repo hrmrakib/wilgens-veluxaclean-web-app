@@ -1,53 +1,65 @@
 "use client";
 
-import * as React from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useGetFaqQuery } from "@/redux/features/faq/faqAPI";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const faqData = [
-  {
-    id: "item-1",
-    question: "What is VeluxaClean?",
-    answer:
-      "VeluxaClean is a home care platform that connects homeowners with professional service providers offering a wide range of home services, including repairs, maintenance, cleaning, and more.",
-  },
-  {
-    id: "item-2",
-    question:
-      "Are the service providers on VeluxaClean reliable and qualified?",
-    answer:
-      "Yes, all service providers on VeluxaClean go through a rigorous vetting process. We verify their credentials, insurance, and background checks. Additionally, we maintain a rating system based on customer reviews to ensure quality service delivery.",
-  },
-  {
-    id: "item-3",
-    question: "What if I have an issue or complaint about a service provider?",
-    answer:
-      "We take customer satisfaction seriously. If you have any issues, you can contact our customer support team through the app or website. We have a dispute resolution process and will work to resolve any problems quickly and fairly.",
-  },
-  {
-    id: "item-4",
-    question: "How are payments handled on VeluxaClean?",
-    answer:
-      "Payments are processed securely through our platform. You can pay using credit cards, debit cards, or digital wallets. Payment is typically held in escrow until the service is completed to your satisfaction, ensuring protection for both parties.",
-  },
-  {
-    id: "item-5",
-    question: "How do I leave a review for a service provider?",
-    answer:
-      "After your service is completed, you'll receive a notification to rate and review your experience. You can also access the review section through your account dashboard. Your feedback helps maintain service quality and assists other customers in making informed decisions.",
-  },
-];
+// const faqData = [
+//   {
+//     id: "item-1",
+//     question: "What is VeluxaClean?",
+//     answer:
+//       "VeluxaClean is a home care platform that connects homeowners with professional service providers offering a wide range of home services, including repairs, maintenance, cleaning, and more.",
+//   },
+//   {
+//     id: "item-2",
+//     question:
+//       "Are the service providers on VeluxaClean reliable and qualified?",
+//     answer:
+//       "Yes, all service providers on VeluxaClean go through a rigorous vetting process. We verify their credentials, insurance, and background checks. Additionally, we maintain a rating system based on customer reviews to ensure quality service delivery.",
+//   },
+//   {
+//     id: "item-3",
+//     question: "What if I have an issue or complaint about a service provider?",
+//     answer:
+//       "We take customer satisfaction seriously. If you have any issues, you can contact our customer support team through the app or website. We have a dispute resolution process and will work to resolve any problems quickly and fairly.",
+//   },
+//   {
+//     id: "item-4",
+//     question: "How are payments handled on VeluxaClean?",
+//     answer:
+//       "Payments are processed securely through our platform. You can pay using credit cards, debit cards, or digital wallets. Payment is typically held in escrow until the service is completed to your satisfaction, ensuring protection for both parties.",
+//   },
+//   {
+//     id: "item-5",
+//     question: "How do I leave a review for a service provider?",
+//     answer:
+//       "After your service is completed, you'll receive a notification to rate and review your experience. You can also access the review section through your account dashboard. Your feedback helps maintain service quality and assists other customers in making informed decisions.",
+//   },
+// ];
+
+interface FAQItem {
+  _id: string;
+  question: string;
+  answer: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function FAQSection() {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [openItem, setOpenItem] = React.useState("item-1");
+  const [isVisible, setIsVisible] = useState(false);
+  const [openItem, setOpenItem] = useState("item-1");
 
-  React.useEffect(() => {
+  const { data: faqData } = useGetFaqQuery({});
+
+  console.log(faqData, "data");
+  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -75,7 +87,10 @@ export default function FAQSection() {
   };
 
   return (
-    <section id='faq-section' className='py-16 lg:py-24 bg-[#FFFFFF] px-6 md:px-0'>
+    <section
+      id='faq-section'
+      className='py-16 lg:py-24 bg-[#FFFFFF] px-6 md:px-0'
+    >
       <div className='container mx-auto'>
         <div className='grid lg:grid-cols-2 gap-12 lg:gap-16'>
           {/* Left Side - Header */}
@@ -119,12 +134,12 @@ export default function FAQSection() {
               onValueChange={(val) => setOpenItem(val)}
               className='space-y-4'
             >
-              {faqData.map((faq, index) => (
+              {faqData?.data?.result?.map((faq: FAQItem, index: number) => (
                 <AccordionItem
-                  key={faq.id}
-                  value={faq.id}
+                  key={faq._id}
+                  value={faq._id}
                   className={`rounded-lg hover:shadow-md transition-all duration-300 ${
-                    openItem === faq.id ? "bg-[#F3F5F9]" : "bg-transparent"
+                    openItem === faq._id ? "bg-[#F3F5F9]" : "bg-transparent"
                   } ${
                     isVisible
                       ? "opacity-100 translate-y-0"
@@ -136,14 +151,14 @@ export default function FAQSection() {
                     <div className='flex items-start space-x-3 w-full'>
                       {/* <HelpCircle className='w-5 h-5 text-cyan-500 mt-1 flex-shrink-0' /> */}
                       <span className='text-2xl font-semibold text-[#545971] group-hover:text-cyan-600 transition-colors duration-200 text-left'>
-                        {faq.question}
+                        {faq?.question}
                       </span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className='px-6 pb-6'>
                     <div className=''>
                       <p className='text-[#737373] leading-relaxed text-base'>
-                        {faq.answer}
+                        {faq?.answer}
                       </p>
                     </div>
                   </AccordionContent>

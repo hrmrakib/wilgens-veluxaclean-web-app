@@ -3,12 +3,13 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Check, ChevronRight, Star } from "lucide-react";
 import BookingPage from "@/components/service/BookingForm";
 import { useGetServiceByIdQuery } from "@/redux/features/service/servioceAPI";
+import { useParams } from "next/navigation";
 
 interface BookingFormData {
   name: string;
@@ -55,8 +56,13 @@ export default function ServiceDetailSection() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  const params = useParams();
 
-  const { data } = useGetServiceByIdQuery({});
+  console.log(params.slug);
+
+  const { data } = useGetServiceByIdQuery(params.slug);
+
+  console.log(data);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
