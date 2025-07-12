@@ -3,11 +3,13 @@ import ContactFormSection from "@/components/contact/ContactFormSection";
 import React from "react";
 
 const ContactPage = () => {
-  return <div>
-    <CommonBanner title='Contact' path='/contact' />
+  return (
+    <div>
+      <CommonBanner title='Contact' path='/contact' />
 
-    <ContactFormSection />
-  </div>;
+      <ContactFormSection />
+    </div>
+  );
 };
 
 export default ContactPage;

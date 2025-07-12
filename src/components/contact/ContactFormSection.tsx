@@ -14,16 +14,14 @@ import {
   Instagram,
 } from "lucide-react";
 import Link from "next/link";
+import { useCreateCleaningContactMutation } from "@/redux/features/cleaning-contact/cleaningContactAPI";
+import { toast } from "sonner";
 
 const serviceOptions = [
-  "Residential Cleaning",
-  "Commercial Cleaning",
-  "Carpet Cleaning",
+  "Carpet Cleaning Service",
+  "Residential Cleaning Services",
+  "Commercial Cleaning Service",
   "Move-in/Move-out Cleaning",
-  "Deep Cleaning",
-  "Window Cleaning",
-  "Post-Construction Cleaning",
-  "Other",
 ];
 
 interface FormData {
@@ -54,6 +52,7 @@ export default function ContactFormSection() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  const [createCleaningContact] = useCreateCleaningContactMutation();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -89,7 +88,19 @@ export default function ContactFormSection() {
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const res = await createCleaningContact({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        category: formData.service,
+      });
+
+      console.log(res);
+      if (res?.data?.success) {
+        toast.success(res?.data?.message);
+      }
+
+      console.log(res);
 
       setSubmitStatus("success");
       setFormData({ name: "", email: "", service: "", message: "" });
@@ -115,6 +126,13 @@ export default function ContactFormSection() {
     handleInputChange("service", service);
     setIsDropdownOpen(false);
   };
+
+  console.log(
+    formData.name,
+    formData.email,
+    formData.service,
+    formData.message
+  );
 
   return (
     <div className='min-h-screen bg-[#FFFFFF]'>
