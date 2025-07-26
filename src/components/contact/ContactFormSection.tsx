@@ -98,19 +98,19 @@ export default function ContactFormSection() {
       console.log(res);
       if (res?.data?.success) {
         toast.success(res?.data?.message);
+        setSubmitStatus("success");
       }
 
       console.log(res);
 
-      setSubmitStatus("success");
-      setFormData({ name: "", email: "", service: "", message: "" });
-
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus("idle"), 5000);
     } catch (error) {
+      toast.error("Something went wrong. Please try again.");
       setSubmitStatus("error");
       setTimeout(() => setSubmitStatus("idle"), 5000);
     } finally {
+      setFormData({ name: "", email: "", service: "", message: "" });
       setIsSubmitting(false);
     }
   };

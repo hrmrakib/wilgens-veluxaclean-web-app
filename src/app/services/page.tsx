@@ -237,7 +237,7 @@ export default function ServicesPage() {
             {/* Page Header */}
             <div
               className={`transition-all duration-1000 delay-300 ${
-                isVisible
+                isVisible 
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
               }`}

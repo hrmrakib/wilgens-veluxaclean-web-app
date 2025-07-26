@@ -6,69 +6,6 @@ import { Calendar } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const blogPosts = [
-  {
-    id: 1,
-    date: "17 June 2025",
-    title: "Window Cleaning",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
-    category: "Residential",
-    image: "/blog1.png",
-    href: "/blog/window-cleaning",
-  },
-  {
-    id: 2,
-    date: "18 June 2025",
-    title: "Bedroom Cleaning",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
-    category: "Move-in/Move-out",
-    image: "/blog2.png",
-    href: "/blog/bedroom-cleaning",
-  },
-  {
-    id: 3,
-    date: "19 June 2025",
-    title: "Bathroom Cleaning",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
-    category: "Carpet",
-    image: "/blog3.jpg",
-    href: "/blog/bathroom-cleaning",
-  },
-  {
-    id: 4,
-    date: "20 June 2025",
-    title: "Kitchen Deep Clean",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
-    category: "Residential",
-    image: "/blog4.jpg",
-    href: "/blog/kitchen-cleaning",
-  },
-  {
-    id: 5,
-    date: "21 June 2025",
-    title: "Office Sanitization",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
-    category: "Commercial",
-    image: "/blog1.png",
-    href: "/blog/office-sanitization",
-  },
-  {
-    id: 6,
-    date: "22 June 2025",
-    title: "Carpet Restoration",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions...",
-    category: "Carpet",
-    image: "/blog2.jpg",
-    href: "/blog/carpet-restoration",
-  },
-];
-
 interface IBlogPost {
   _id: string;
   title: string;
@@ -134,29 +71,13 @@ export default function BlogCarousel() {
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => {
-        const maxIndex = blogPosts.length - visibleCards;
+        const maxIndex = blogs?.data?.result?.length - visibleCards;
         return prevIndex >= maxIndex ? 0 : prevIndex + 1;
       });
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, visibleCards]);
-
-  // const nextSlide = () => {
-  //   setIsAutoPlaying(false);
-  //   setCurrentIndex((prevIndex) => {
-  //     const maxIndex = blogPosts.length - visibleCards;
-  //     return prevIndex >= maxIndex ? 0 : prevIndex + 1;
-  //   });
-  // };
-
-  // const prevSlide = () => {
-  //   setIsAutoPlaying(false);
-  //   setCurrentIndex((prevIndex) => {
-  //     const maxIndex = blogPosts.length - visibleCards;
-  //     return prevIndex <= 0 ? maxIndex : prevIndex - 1;
-  //   });
-  // };
+  }, [isAutoPlaying, visibleCards, blogs?.data?.result]);
 
   const goToSlide = (index: number) => {
     setIsAutoPlaying(false);
@@ -168,7 +89,7 @@ export default function BlogCarousel() {
     // In a real app, this would handle navigation
   };
 
-  const maxIndex = blogPosts.length - visibleCards;
+  const maxIndex = blogs?.data?.result?.length - visibleCards;
 
   return (
     <section

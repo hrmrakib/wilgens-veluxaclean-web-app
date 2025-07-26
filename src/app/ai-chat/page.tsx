@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -9,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
+import { useCreateRoomMutation } from "@/redux/features/chat/chatAPI";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface ChatItem {
   id: string;
@@ -34,6 +37,22 @@ export default function VeluxaCleanChat() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [createRoom] = useCreateRoomMutation();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [roomId, setRoomId] = useState<string | null>(
+    searchParams.get("roomId")
+  );
+
+  useEffect(() => {
+    const query = new URLSearchParams(searchParams);
+    if(roomId) {
+query.set("roomId", roomId || "");
+    router.push(`?${query.toString()}`);
+    }
+
+    
+  }, [roomId]);
 
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
@@ -119,22 +138,24 @@ export default function VeluxaCleanChat() {
       isUser: true,
       timestamp: new Date(),
     };
+    try {
+      const res = await createRoom({
+        question: inputValue,
+        createRoom: true,
+      });
+
+      if (res?.data?.success) {
+        setRoomId(res?.data?.data.roomId);
+      }
+
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
 
     setMessages((prev) => [...prev, newMessage]);
     setInputValue("");
     setIsTyping(true);
-
-    // Simulate bot response with typing indicator
-    setTimeout(() => {
-      setIsTyping(false);
-      const botResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        content: getBotResponse(inputValue),
-        isUser: false,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, botResponse]);
-    }, 1500);
   };
 
   const getBotResponse = (userMessage: string): string => {
@@ -174,7 +195,7 @@ export default function VeluxaCleanChat() {
     }
   };
 
-  const startNewChat = () => {
+  const startNewChat = async () => {
     setMessages([]);
     setCurrentChatId(null);
     setIsSearchModalOpen(false);
@@ -229,6 +250,8 @@ export default function VeluxaCleanChat() {
       </div>
     </div>
   );
+
+  console.log(inputValue);
 
   const SearchModal = () => (
     <div className='fixed inset-0 bg-[#1c202041] z-50 flex items-start justify-center p-4 pt-16 md:pt-20'>

@@ -2,95 +2,29 @@
 
 import type React from "react";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import { useGetAllBlogsQuery } from "@/redux/features/blog/blogAPI";
 
-interface BlogPost {
-  id: number;
+interface IBlog {
+  _id: string;
   title: string;
-  date: string;
   description: string;
-  image: string;
-  category: string;
+  image: string[];
+  createdAt: string;
+  updatedAt: string;
 }
-
-const blogPosts: BlogPost[] = [
-  {
-    id: 1,
-    title: "Window Cleaning",
-    date: "17 June 2025",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions.",
-    image: "/blog1.png",
-    category: "cleaning",
-  },
-  {
-    id: 2,
-    title: "Bedroom Cleaning",
-    date: "18 June 2025",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions.",
-    image: "/blog2.png",
-    category: "cleaning",
-  },
-  {
-    id: 3,
-    title: "Office Cleaning Service",
-    date: "19 June 2025",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions.",
-    image: "/blog3.png",
-    category: "cleaning",
-  },
-  {
-    id: 4,
-    title: "Bathroom Cleaning",
-    date: "16 June 2025",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions.",
-    image: "/blog4.png",
-    category: "cleaning",
-  },
-  {
-    id: 5,
-    title: "Window Cleaning",
-    date: "17 June 2025",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions.",
-    image: "/blog3.png",
-    category: "cleaning",
-  },
-  {
-    id: 6,
-    title: "Bedroom Cleaning",
-    date: "18 June 2025",
-    description:
-      "Discover the ultimate guide to troubleshooting common smart home issues in our latest blog post. From connectivity problems to device malfunctions.",
-    image: "/blog4.png",
-    category: "cleaning",
-  },
-];
 
 export default function BlogPageSesction() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: blogs } = useGetAllBlogsQuery({});
 
-  const filteredPosts = useMemo(() => {
-    if (!searchQuery.trim()) {
-      return blogPosts;
-    }
-
-    return blogPosts.filter(
-      (post) =>
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.category.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery]);
+  console.log("data", blogs?.data?.result);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -130,15 +64,15 @@ export default function BlogPageSesction() {
 
         {/* Blog Posts Grid */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8'>
-          {filteredPosts.map((post) => (
-            <Link href={`/blog/${post.id}`} key={post.id}>
+          {blogs?.data?.result?.map((post: IBlog) => (
+            <Link href={`/blog/${post._id}`} key={post._id}>
               <Card
-                key={post.id}
+                key={post._id}
                 className='!bg-transparent overflow-hidden border-0  hover:shadow-md transition-shadow duration-200'
               >
                 <div className='aspect-[3/2] relative overflow-hidden'>
                   <Image
-                    src={post.image || "/placeholder.svg"}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${post?.image[0]}`}
                     alt={post.title}
                     fill
                     className='object-cover transition-transform duration-300'
@@ -148,13 +82,13 @@ export default function BlogPageSesction() {
                 <CardContent className='px-6 pb-6'>
                   <div className='space-y-3'>
                     <p className='text-base text-[#545971] font-medium'>
-                      {post.date}
+                      {post?.createdAt?.split("T")[0]}
                     </p>
                     <h2 className='text-xl md:text-[32px] font-bold text-[#171921] leading-tight'>
-                      {post.title}
+                      {post?.title}
                     </h2>
                     <p className='text-[#545971] leading-relaxed text-lg'>
-                      {post.description}
+                      {post?.description}
                     </p>
                   </div>
                 </CardContent>
@@ -164,7 +98,7 @@ export default function BlogPageSesction() {
         </div>
 
         {/* No Results Message */}
-        {filteredPosts.length === 0 && searchQuery && (
+        {blogs?.data?.result.length === 0 && searchQuery && (
           <div className='text-center py-12'>
             <div className='text-gray-500 text-lg mb-2'>No results found</div>
             <p className='text-gray-400'>
@@ -181,10 +115,10 @@ export default function BlogPageSesction() {
         )}
 
         {/* Results Count */}
-        {searchQuery && filteredPosts.length > 0 && (
+        {searchQuery && blogs?.data?.result.length > 0 && (
           <div className='mt-8 text-center text-sm text-gray-500'>
-            {`Showing ${filteredPosts.length} result${
-              filteredPosts.length !== 1 ? "s" : ""
+            {`Showing ${blogs?.data?.result?.length} result${
+              blogs?.data?.result?.length !== 1 ? "s" : ""
             } for "${searchQuery}"`}
           </div>
         )}

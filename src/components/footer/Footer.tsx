@@ -9,7 +9,7 @@ const footerLinks = {
     { name: "About Us", href: "/about" },
     { name: "Services", href: "/services" },
     { name: "Community", href: "/community" },
-    { name: "Testimonial", href: "/testimonials" },
+    { name: "Testimonial", href: "#testimonial" },
   ],
   support: [
     { name: "Terms & Condition", href: "/terms" },
