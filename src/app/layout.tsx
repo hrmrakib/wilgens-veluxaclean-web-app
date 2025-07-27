@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import Providers from "@/redux/features/Providers";
 import { Toaster } from "sonner";
+import Chatbot from "@/components/message/Message";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </Providers>
+        <Chatbot />
       </body>
     </html>
   );

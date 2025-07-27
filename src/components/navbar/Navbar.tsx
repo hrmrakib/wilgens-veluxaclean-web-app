@@ -25,7 +25,7 @@ import { RootState } from "@/redux/store/store";
 const navigationItems = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
-  { name: "AI Chat", href: "/ai-chat" },
+  // { name: "AI Chat", href: "/ai-chat" },
   { name: "About Us", href: "/about" },
   { name: "Our Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },

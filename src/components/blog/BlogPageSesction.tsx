@@ -4,8 +4,6 @@ import type React from "react";
 
 import { useState } from "react";
 import Image from "next/image";
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
@@ -24,13 +22,6 @@ export default function BlogPageSesction() {
   const [searchQuery, setSearchQuery] = useState("");
   const { data: blogs } = useGetAllBlogsQuery({});
 
-  console.log("data", blogs?.data?.result);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Search is handled by the useMemo hook above
-  };
-
   return (
     <div
       className='min-h-screen py-16'
@@ -40,28 +31,6 @@ export default function BlogPageSesction() {
       }}
     >
       <div className='container mx-auto px-4 py-8 max-w-6xl'>
-        {/* Search Bar */}
-        <div className='flex justify-end mb-8 md:mb-16'>
-          <form onSubmit={handleSearch} className='relative w-full max-w-md'>
-            <Input
-              type='text'
-              placeholder='Search here...'
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className='pr-12 !py-8 bg-white border-gray-200 focus:border-gray-300 focus:ring-gray-300 !placeholder:text-gray-700'
-            />
-            <Button
-              type='submit'
-              size='sm'
-              variant='ghost'
-              className='absolute right-2.5 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-100'
-            >
-              <Search className='h-4 w-4 text-gray-500' />
-              <span className='sr-only'>Search</span>
-            </Button>
-          </form>
-        </div>
-
         {/* Blog Posts Grid */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8'>
           {blogs?.data?.result?.map((post: IBlog) => (

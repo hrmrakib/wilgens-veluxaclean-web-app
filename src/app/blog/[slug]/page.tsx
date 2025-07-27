@@ -2,73 +2,16 @@
 
 import type React from "react";
 
-import { useState } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
 import CommonBanner from "@/components/common/CommonBanner";
-
-interface Comment {
-  id: number;
-  author: string;
-  avatar?: string;
-  content: string;
-  date: string;
-}
-
-interface ReviewForm {
-  name: string;
-  email: string;
-  phone: string;
-  comment: string;
-}
+import { useGetBlogByIdQuery } from "@/redux/features/blog/blogAPI";
+import { useParams } from "next/navigation";
 
 export default function BlogDetailPage() {
-  const [comments] = useState<Comment[]>([
-    {
-      id: 1,
-      author: "Taylor Smith",
-      content:
-        "This article was very informative! I learned so much about residential cleaning services. The tips provided were practical and easy to implement.",
-      date: "2 days ago",
-    },
-    {
-      id: 2,
-      author: "Andrea Nora",
-      content:
-        "Great insights on professional cleaning services. I've been considering hiring a cleaning service and this article helped me understand what to look for.",
-      date: "1 week ago",
-    },
-  ]);
+  const params = useParams();
+  const { data: blog } = useGetBlogByIdQuery(params?.slug as string);
 
-  const [reviewForm, setReviewForm] = useState<ReviewForm>({
-    name: "",
-    email: "",
-    phone: "",
-    comment: "",
-  });
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setReviewForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmitReview = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Review submitted:", reviewForm);
-    // Here you would typically send the data to your backend
-    alert("Thank you for your review!");
-    setReviewForm({ name: "", email: "", phone: "", comment: "" });
-  };
-
+  console.log(blog?.data?.image[0]);
   return (
     <div className='min-h-screen bg-white'>
       <CommonBanner title='Blog Detail' path='/blog' />
@@ -78,7 +21,7 @@ export default function BlogDetailPage() {
         {/* Hero Image */}
         <div className='aspect-[16/9] md:aspect-[2/1] relative overflow-hidden rounded-2xl mb-8'>
           <Image
-            src='/blog-detail1.png'
+            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${blog?.data?.image[0]}`}
             alt='Professional cleaners working on windows'
             fill
             className='object-cover'
@@ -90,21 +33,18 @@ export default function BlogDetailPage() {
         {/* Title and Introduction */}
         <header className='mb-8'>
           <h1 className='text-3xl md:text-4xl font-bold text-gray-900 mb-6'>
-            Residential Cleaning Service
+            {blog?.data?.title}
           </h1>
-          <p className='text-gray-700 leading-relaxed text-lg mb-6'>
+          {/* <p className='text-gray-700 leading-relaxed text-lg mb-6'>
             The rush to give employees access to all the tools they&apos;d need
             to work from home was a bit, well, sudden for many employers. But
             after everyone settled in, what quickly became apparent to many
             office-based teams is that employees could be productive and focused
             when not in the office—in many cases, even more so. Employers
             everywhere began to understand that remote work really works.
-          </p>
+          </p> */}
           <p className='text-gray-700 leading-relaxed'>
-            Whether you&apos;re on the hunt for a remote job or are already
-            working virtually, check out this list of the advantages of working
-            from home, along with some of the top companies that hire for remote
-            jobs.
+            {blog?.data?.description}
           </p>
         </header>
 
@@ -228,7 +168,7 @@ export default function BlogDetailPage() {
         </div>
 
         {/* Comments Section */}
-        <section className='mb-12'>
+        {/* <section className='mb-12'>
           <h2 className='text-2xl font-bold text-gray-900 mb-6'>
             {comments.length} Comments
           </h2>
@@ -274,10 +214,10 @@ export default function BlogDetailPage() {
               </Card>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Review Form */}
-        <section>
+        {/* <section>
           <h2 className='text-2xl font-bold text-gray-900 mb-6'>
             Edit Your Review
           </h2>
@@ -366,7 +306,7 @@ export default function BlogDetailPage() {
               </form>
             </CardContent>
           </Card>
-        </section>
+        </section> */}
       </article>
     </div>
   );

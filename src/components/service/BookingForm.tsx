@@ -16,6 +16,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useCreateBookingMutation } from "@/redux/features/booking/bookingAPI";
+import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 interface FormData {
   name: string;
@@ -47,6 +50,8 @@ export default function BookingPage() {
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const params = useParams();
+  const [createBooking] = useCreateBookingMutation();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -73,6 +78,16 @@ export default function BookingPage() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const convertTo24Hour = (time: string, period: "AM" | "PM") => {
+    let [hours, minutes] = time.split(":").map(Number);
+    if (period === "PM" && hours < 12) hours += 12;
+    if (period === "AM" && hours === 12) hours = 0;
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:00Z`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -80,22 +95,36 @@ export default function BookingPage() {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setIsSubmitting(false);
-
-    // Reset form after success message
-    setTimeout(() => {
-      setFormData({
-        name: "",
-        email: "",
-        date: "",
-        time: "",
-        period: "AM",
-        message: "",
+    try {
+      const res = await createBooking({
+        service: params?.slug,
+        name: formData?.name,
+        email: formData?.email,
+        date: new Date(
+          `${formData.date}T${convertTo24Hour(formData.time, formData.period)}`
+        ).toISOString(),
+        time: `${formData.time} ${formData.period}`,
+        description: formData?.message,
       });
-    }, 3000);
+
+      if (res?.data?.success) {
+        toast.success(res?.data?.message);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => {
+        setFormData({
+          name: "",
+          email: "",
+          date: "",
+          time: "",
+          period: "AM",
+          message: "",
+        });
+      }, 3000);
+    }
   };
 
   const handleInputChange = (field: keyof FormData, value: string) => {

@@ -10,7 +10,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { useCreateRoomMutation } from "@/redux/features/chat/chatAPI";
+import {
+  useCreateChatMutation,
+  useCreateRoomMutation,
+} from "@/redux/features/chat/chatAPI";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface ChatItem {
@@ -38,6 +41,7 @@ export default function VeluxaCleanChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [createRoom] = useCreateRoomMutation();
+  const [createChat] = useCreateChatMutation();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [roomId, setRoomId] = useState<string | null>(
@@ -46,12 +50,10 @@ export default function VeluxaCleanChat() {
 
   useEffect(() => {
     const query = new URLSearchParams(searchParams);
-    if(roomId) {
-query.set("roomId", roomId || "");
-    router.push(`?${query.toString()}`);
+    if (roomId) {
+      query.set("roomId", roomId || "");
+      router.push(`?${query.toString()}`);
     }
-
-    
   }, [roomId]);
 
   // Auto-scroll to bottom when new messages arrive
@@ -129,63 +131,100 @@ query.set("roomId", roomId || "");
     },
   ];
 
+  // const handleSendMessage = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!inputValue.trim()) return;
+
+  //   try {
+  //     if (!roomId) {
+  //       const res = await createRoom({
+  //         question: inputValue,
+  //         createRoom: true,
+  //       });
+
+  //       console.log(res);
+
+  //       if (res?.data?.success) {
+  //         setRoomId(res?.data?.data.roomId);
+  //       }
+  //     }
+
+  //     const res = await createChat({
+  //       question: inputValue,
+  //       roomId: roomId || "",
+  //     });
+
+  //     if (res?.data?.success) {
+  //       const botReply: Message = {
+  //         id: Date.now().toString() + "-bot",
+  //         content: res?.data?.data.answer,
+  //         isUser: false,
+  //         timestamp: new Date(),
+  //       };
+  //       setMessages((prev) => [...prev, botReply]);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setInputValue("");
+  //     setIsTyping(false);
+  //   }
+  // };
+
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
 
-    const newMessage: Message = {
+    const userMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
       isUser: true,
       timestamp: new Date(),
     };
-    try {
-      const res = await createRoom({
-        question: inputValue,
-        createRoom: true,
-      });
 
-      if (res?.data?.success) {
-        setRoomId(res?.data?.data.roomId);
-      }
-
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-
-    setMessages((prev) => [...prev, newMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsTyping(true);
-  };
 
-  const getBotResponse = (userMessage: string): string => {
-    const message = userMessage.toLowerCase();
+    try {
+      let currentRoomId = roomId;
 
-    if (
-      message.includes("price") ||
-      message.includes("cost") ||
-      message.includes("pricing")
-    ) {
-      return "Our cleaning services are competitively priced! Here's our pricing structure:\n\n• Standard Cleaning: $80-120 per visit\n• Deep Cleaning: $150-250 per visit\n• Move-in/Move-out: $200-350\n• Office Cleaning: $0.10-0.20 per sq ft\n\nPrices vary based on home size, frequency, and specific requirements. Would you like a personalized quote?";
+      // 1. Create new room if needed
+      if (!currentRoomId) {
+        const res = await createRoom({
+          question: inputValue,
+          createRoom: true,
+        });
+
+        if (res?.data?.success) {
+          currentRoomId = res.data.data.roomId;
+          setRoomId(currentRoomId);
+        } else {
+          throw new Error("Failed to create room");
+        }
+      }
+
+      const chatRes = await createChat({
+        question: inputValue,
+        roomId: currentRoomId,
+      });
+
+      const answer = chatRes?.data?.data?.answer;
+
+      if (answer) {
+        const botMessage: Message = {
+          id: Date.now().toString() + "-bot",
+          content: answer,
+          isUser: false,
+          timestamp: new Date(),
+        };
+
+        setMessages((prev) => [...prev, botMessage]);
+      }
+    } catch (err) {
+      console.error("Message sending error:", err);
     }
 
-    if (
-      message.includes("book") ||
-      message.includes("schedule") ||
-      message.includes("appointment")
-    ) {
-      return "I'd be happy to help you schedule a cleaning appointment! 📅\n\nTo book your service, I'll need:\n• Your address and home size\n• Preferred date and time\n• Type of cleaning service needed\n• Any special requirements\n\nYou can also book online at our website or call us at (555) 123-CLEAN. What works best for you?";
-    }
-
-    if (
-      message.includes("area") ||
-      message.includes("location") ||
-      message.includes("service area")
-    ) {
-      return "VeluxaClean proudly serves the greater metropolitan area! 🗺️\n\nOur service areas include:\n• Downtown and city center\n• All suburban neighborhoods\n• Within 25 miles of city limits\n• Some rural areas (additional travel fee may apply)\n\nNot sure if we serve your area? Just provide your zip code and I'll confirm coverage!";
-    }
-
-    return "Thank you for your question about VeluxaClean! I'm here to help you with information about our professional cleaning services, scheduling, pricing, and service areas. \n\nOur team provides:\n• Regular house cleaning\n• Deep cleaning services\n• Move-in/move-out cleaning\n• Office and commercial cleaning\n• Post-construction cleanup\n\nHow can I assist you with your cleaning needs today?";
+    setIsTyping(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -251,7 +290,7 @@ query.set("roomId", roomId || "");
     </div>
   );
 
-  console.log(inputValue);
+  // console.log(roomId);
 
   const SearchModal = () => (
     <div className='fixed inset-0 bg-[#1c202041] z-50 flex items-start justify-center p-4 pt-16 md:pt-20'>
@@ -486,7 +525,7 @@ query.set("roomId", roomId || "");
               </div>
             </div>
           ) : (
-            <ScrollArea className='flex-1 px-4 lg:px-8'>
+            <ScrollArea className='flex-1 px-4 lg:px-8 overflow-auto'>
               <div className='max-w-4xl mx-auto py-4'>
                 <div className='space-y-6'>
                   {messages.map((message) => (
@@ -499,7 +538,6 @@ query.set("roomId", roomId || "");
                       <div className='flex items-start gap-3 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl'>
                         {!message.isUser && (
                           <div className='flex-shrink-0 w-12 h-12 bg-[#62C1BF] rounded-full flex items-center justify-center mt-1'>
-                            {/* <div className='w-4 h-4 bg-slate-600 rounded-full'></div> */}
                             <svg
                               width='40'
                               height='40'
@@ -574,7 +612,7 @@ query.set("roomId", roomId || "");
                           }`}
                         >
                           <p className='text-sm lg:text-base leading-relaxed whitespace-pre-line'>
-                            {message.content}
+                            {message?.content}
                           </p>
                         </div>
                         {message.isUser && (
@@ -623,7 +661,7 @@ query.set("roomId", roomId || "");
         {/* Input Area */}
         <div className='flex-shrink-0 p-4 lg:p-8 bg-transparent'>
           <div className='max-w-4xl mx-auto'>
-            <div className='relative'>
+            <form className='relative'>
               <Input
                 ref={inputRef}
                 value={inputValue}
@@ -631,17 +669,18 @@ query.set("roomId", roomId || "");
                 onKeyPress={handleKeyPress}
                 placeholder='Ask me anything about VeluxaClean.....'
                 className='w-full h-24 pr-12 py-3 lg:py-4 text-sm lg:text-base bg-[#27484C] text-white placeholder:text-white/60 focus:ring-2 focus:ring-slate-500 focus:border-transparent rounded-xl'
-                disabled={isTyping}
+                // disabled={isTyping}
               />
               <Button
                 onClick={handleSendMessage}
-                disabled={!inputValue.trim() || isTyping}
+                // disabled={!inputValue.trim() || isTyping}
                 size='icon'
+                type='submit'
                 className='absolute right-2 top-1/2 transform -translate-y-1/2 bg-white text-slate-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed rounded-full h-8 w-8 lg:h-10 lg:w-10 transition-colors'
               >
                 <ArrowUp className='h-4 w-4 lg:h-5 lg:w-5' />
               </Button>
-            </div>
+            </form>
           </div>
         </div>
       </div>

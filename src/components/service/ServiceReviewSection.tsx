@@ -12,6 +12,8 @@ import {
   MoreHorizontal,
   ThumbsUp,
 } from "lucide-react";
+import { useCreateBookingMutation } from "@/redux/features/booking/bookingAPI";
+import { toast } from "sonner";
 
 interface Testimonial {
   id: number;
@@ -106,6 +108,7 @@ export default function ServiceReviewSection() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  const [createBooking] = useCreateBookingMutation();
 
   const handlePrevTestimonial = () => {
     setCurrentTestimonial((prev) =>
@@ -129,8 +132,10 @@ export default function ServiceReviewSection() {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const res = await createBooking({ ...formData, service: "Cleaning" });
+      if (res?.data?.success) {
+        toast.success(res?.data?.message);
+      }
 
       setSubmitStatus("success");
       setFormData({ rating: 0, review: "" });
