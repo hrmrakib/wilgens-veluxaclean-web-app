@@ -31,7 +31,7 @@ export default function Chatbot() {
     setIsLoading(true);
     try {
       const response = await axios({
-        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDu6a0pC7BxjvDMLsIAnaPaSmJDPGOwn1c",
+        url: process.env.NEXT_PUBLIC_GEMINI_API_URL,
         method: "post",
         data: {
           contents: [
