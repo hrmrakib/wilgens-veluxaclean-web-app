@@ -30,15 +30,6 @@ const services = [
   "Carpet Cleaning",
 ];
 
-const additionalResidentialServices = [
-  "Move Cleaning $50 - $150 (depending on size)",
-  "Interior For Window Cleaning $5",
-  "Pet Hair Removal $30-$50 Extra",
-  "Inside Fridge Cleaning $30",
-  "Inside Oven Cleaning $35",
-  "Inside Cabinets $50",
-];
-
 const additionalCarpetServices = [
   "Stain Carpet Shampooing $30-$50",
   "Hot Seat & Sofa Treatment $40-$60",
@@ -57,12 +48,9 @@ export default function ServiceDetailSection() {
     "idle" | "success" | "error"
   >("idle");
   const params = useParams();
+  const { data: service } = useGetServiceByIdQuery(params.slug);
 
-  console.log(params.slug);
-
-  const { data } = useGetServiceByIdQuery(params.slug);
-
-  console.log(data);
+  console.log(service?.data);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -196,20 +184,16 @@ export default function ServiceDetailSection() {
             {/* Overview Section */}
             <section>
               <h2 className='text-2xl lg:text-3xl font-bold text-gray-900 mb-6'>
-                Overview Of Home Cleaning
+                {service?.data?.serviceName}
               </h2>
               <p className='text-gray-600 leading-relaxed mb-8'>
-                As we all know, house work has a host of advantages for women.
-                We&apos;re listing out the best of the best benefits of working
-                from home, since they should be aware of and used their day
-                right and also read more for women work is meant for excitement,
-                employment, like economy, and the planet.
+                {service?.data?.details}
               </p>
 
               {/* Service Image */}
               <div className='rounded-2xl overflow-hidden mb-8'>
                 <Image
-                  src='/service/service.png'
+                  src={`${process.env.NEXT_PUBLIC_API_URL}${service?.data?.image}`}
                   alt='Professional cleaners working'
                   width={600}
                   height={300}
@@ -244,14 +228,25 @@ export default function ServiceDetailSection() {
               <h3 className='text-xl lg:text-2xl font-bold text-gray-900 mb-6'>
                 Additional Residential Service
               </h3>
-              <ul className='space-y-3'>
-                {additionalResidentialServices.map((service, index) => (
-                  <li key={index} className='flex items-start space-x-3'>
-                    <div className='w-2 h-2 bg-[#27484C] rounded-full mt-2 flex-shrink-0'></div>
-                    <span className='text-gray-700'>{service}</span>
-                  </li>
-                ))}
-              </ul>
+              {service?.data?.additionalServices ? (
+                <ul className='space-y-3'>
+                  {Object.entries(service.data.additionalServices).map(
+                    ([serviceName, price], index) => (
+                      <li key={index} className='flex items-start space-x-3'>
+                        <div className='w-2 h-2 bg-[#27484C] rounded-full mt-2 flex-shrink-0'></div>
+                        <span className='text-gray-700'>
+                          {serviceName} -{" "}
+                          <span className='font-medium text-black'>
+                            ${String(price)}
+                          </span>
+                        </span>
+                      </li>
+                    )
+                  )}
+                </ul>
+              ) : (
+                <p className='text-gray-500'>No additional services listed.</p>
+              )}
             </section>
 
             {/* Carpet Cleaning Services */}
@@ -269,81 +264,9 @@ export default function ServiceDetailSection() {
               </ul>
             </section>
           </div>
-
-          {/* Sidebar */}
-          {/* <div className='lg:col-span-1'>
-            <div className='bg-gray-50 rounded-2xl p-6 sticky top-8'>
-              <h3 className='text-xl font-bold text-gray-900 mb-6'>
-                Contact Details
-              </h3>
-
-              <div className='space-y-4'>
-                <div className='flex items-start space-x-3'>
-                  <MapPin className='w-5 h-5 text-cyan-500 mt-1 flex-shrink-0' />
-                  <div>
-                    <p className='text-gray-700 font-medium'>
-                      785 15th Street, Office 468
-                    </p>
-                    <p className='text-gray-600'>Berlin, De 845612</p>
-                  </div>
-                </div>
-
-                <div className='flex items-center space-x-3'>
-                  <Phone className='w-5 h-5 text-cyan-500 flex-shrink-0' />
-                  <a
-                    href='tel:+45612345765'
-                    className='text-gray-700 hover:text-cyan-600 transition-colors duration-200'
-                  >
-                    +45612345765
-                  </a>
-                </div>
-
-                <div className='flex items-center space-x-3'>
-                  <Mail className='w-5 h-5 text-cyan-500 flex-shrink-0' />
-                  <a
-                    href='mailto:creativeitem@gmail.com'
-                    className='text-gray-700 hover:text-cyan-600 transition-colors duration-200'
-                  >
-                    creativeitem@gmail.com
-                  </a>
-                </div>
-              </div>
-
-              <div className='mt-8 space-y-3'>
-                <button className='w-full py-3 px-4 bg-cyan-500 text-white font-medium rounded-lg hover:bg-cyan-600 transition-colors duration-200'>
-                  Call Now
-                </button>
-                <button className='w-full py-3 px-4 border-2 border-cyan-500 text-cyan-600 font-medium rounded-lg hover:bg-cyan-50 transition-colors duration-200'>
-                  Get Quote
-                </button>
-              </div>
-
-              <div className='mt-8 pt-6 border-t border-gray-200'>
-                <h4 className='font-medium text-gray-900 mb-3'>
-                  Service Hours
-                </h4>
-                <div className='space-y-2 text-sm text-gray-600'>
-                  <div className='flex justify-between'>
-                    <span>Monday - Friday</span>
-                    <span>8:00 AM - 6:00 PM</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Saturday</span>
-                    <span>9:00 AM - 4:00 PM</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Sunday</span>
-                    <span>Emergency Only</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
         </div>
 
-        {/* <div className='hidden md:flex'> */}
         <BookingPage />
-        {/* </div> */}
       </div>
     </div>
   );

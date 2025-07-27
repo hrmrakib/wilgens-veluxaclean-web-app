@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use client";
 
 import type React from "react";
@@ -14,14 +15,27 @@ import {
 } from "lucide-react";
 import { useCreateBookingMutation } from "@/redux/features/booking/bookingAPI";
 import { toast } from "sonner";
+import {
+  useCreateReviewMutation,
+  useGetReviewsByIdQuery,
+} from "@/redux/features/review/reviewAPI";
+import { useParams } from "next/navigation";
 
-interface Testimonial {
-  id: number;
+interface IUser {
   name: string;
-  avatar: string;
+  email: string;
+  createdAt: string;
+  image: string;
+}
+
+export interface IReview {
+  _id: string;
+  review: string;
   rating: number;
-  text: string;
-  featured?: boolean;
+  user: IUser;
+  service: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Comment {
@@ -38,45 +52,6 @@ interface ReviewFormData {
   rating: number;
   review: string;
 }
-
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: "Alexa Bliss",
-    avatar: "/testi.png",
-    rating: 5,
-    text: "Training programs can bring you a super exciting experience of learning through online! You never face any negative experience while enjoying your classes Awesome. site, on the top advertising a Courses available business listing.",
-    featured: true,
-  },
-  {
-    id: 2,
-    name: "John Smith",
-    avatar: "/testi.png",
-    rating: 5,
-    text: "Excellent service! The cleaning team was professional and thorough. My house has never looked better.",
-  },
-  {
-    id: 3,
-    name: "Sarah Johnson",
-    avatar: "/testi.png",
-    rating: 4,
-    text: "Great experience overall. The staff was friendly and the cleaning quality exceeded my expectations.",
-  },
-  {
-    id: 4,
-    name: "Mike Wilson",
-    avatar: "/testi.png",
-    rating: 5,
-    text: "Highly recommend! They arrived on time and did an amazing job. Will definitely book again.",
-  },
-  {
-    id: 5,
-    name: "Emma Davis",
-    avatar: "/testi.png",
-    rating: 5,
-    text: "Professional service with attention to detail. The team was courteous and efficient.",
-  },
-];
 
 const comments: Comment[] = [
   {
@@ -108,17 +83,24 @@ export default function ServiceReviewSection() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  const params = useParams();
   const [createBooking] = useCreateBookingMutation();
+  const [createReview] = useCreateReviewMutation();
+  const { data: reviews, refetch } = useGetReviewsByIdQuery(
+    params.slug as string
+  );
+
+  console.log("reviews", reviews?.data?.result);
 
   const handlePrevTestimonial = () => {
     setCurrentTestimonial((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
+      prev === 0 ? reviews?.data?.result.length - 1 : prev - 1
     );
   };
 
   const handleNextTestimonial = () => {
     setCurrentTestimonial((prev) =>
-      prev === testimonials.length - 1 ? 0 : prev + 1
+      prev === reviews?.data?.result.length - 1 ? 0 : prev + 1
     );
   };
 
@@ -132,13 +114,19 @@ export default function ServiceReviewSection() {
     setIsSubmitting(true);
 
     try {
-      const res = await createBooking({ ...formData, service: "Cleaning" });
+      const res = await createReview({
+        review: formData.review,
+        rating: formData.rating,
+        service: params.slug as string,
+      });
+
+      console.log(res);
+
       if (res?.data?.success) {
         toast.success(res?.data?.message);
+        setSubmitStatus("success");
+        refetch();
       }
-
-      setSubmitStatus("success");
-      setFormData({ rating: 0, review: "" });
 
       // Reset success message after 3 seconds
       setTimeout(() => setSubmitStatus("idle"), 3000);
@@ -146,6 +134,7 @@ export default function ServiceReviewSection() {
       setSubmitStatus("error");
       setTimeout(() => setSubmitStatus("idle"), 3000);
     } finally {
+      setFormData({ rating: 0, review: "" });
       setIsSubmitting(false);
     }
   };
@@ -168,8 +157,9 @@ export default function ServiceReviewSection() {
     );
   };
 
-  const currentTestimonialData = testimonials[currentTestimonial];
+  const currentTestimonialData = reviews?.data?.result[currentTestimonial];
 
+  console.log(formData?.rating, formData?.review);
   return (
     <div className='min-h-screen bg-[#FFFFFF] py-8 lg:py-16'>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl'>
@@ -177,37 +167,39 @@ export default function ServiceReviewSection() {
         <div className='bg-[#FFFFFF] rounded-2xl p-6 lg:p-8 mb-8'>
           {/* Customer Avatars */}
           <div className='flex justify-center items-center space-x-2 mb-8'>
-            {testimonials.slice(0, 5).map((testimonial, index) => (
-              <button
-                key={testimonial.id}
-                onClick={() => setCurrentTestimonial(index)}
-                className={`relative rounded-full overflow-hidden transition-all duration-200 ${
-                  index === currentTestimonial
-                    ? "ring-4 ring-cyan-500 ring-offset-2 scale-110"
-                    : "hover:scale-105 opacity-70 hover:opacity-100"
-                }`}
-              >
-                <Image
-                  src={testimonial.avatar || "/placeholder.svg"}
-                  alt={testimonial.name}
-                  width={50}
-                  height={50}
-                  className='w-12 h-12 object-cover'
-                />
-              </button>
-            ))}
+            {reviews?.data?.result
+              ?.slice(0, 5)
+              .map((testimonial: IReview, index: number) => (
+                <button
+                  key={testimonial._id}
+                  onClick={() => setCurrentTestimonial(index)}
+                  className={`relative rounded-full overflow-hidden transition-all duration-200 ${
+                    index === currentTestimonial
+                      ? "ring-4 ring-cyan-500 ring-offset-2 scale-110"
+                      : "hover:scale-105 opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${testimonial?.user?.image}`}
+                    alt={testimonial?.user?.name}
+                    width={50}
+                    height={50}
+                    className='w-12 h-12 object-cover'
+                  />
+                </button>
+              ))}
           </div>
 
           {/* Featured Testimonial */}
           <div className='relative text-center'>
             <h3 className='text-xl font-bold text-gray-900 mb-2'>
-              {currentTestimonialData.name}
+              {currentTestimonialData?.name}
             </h3>
             <div className='flex justify-center mb-4'>
-              {renderStars(currentTestimonialData.rating)}
+              {renderStars(currentTestimonialData?.rating)}
             </div>
             <blockquote className='text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto mb-6'>
-              &quot;{currentTestimonialData.text}&quot;
+              &quot;{currentTestimonialData?.review}&quot;
             </blockquote>
 
             {/* Navigation */}
@@ -221,7 +213,7 @@ export default function ServiceReviewSection() {
               </button>
 
               <div className='flex space-x-2'>
-                {testimonials.map((_, index) => (
+                {reviews?.data?.result.map((_, index: number) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTestimonial(index)}
@@ -245,18 +237,18 @@ export default function ServiceReviewSection() {
           </div>
         </div>
 
-        {/* Comments Section */}
+        {/* Reviews Section */}
         <div className='bg-[#FFFFFF] rounded-2xl p-6 lg:p-8 mb-8'>
           <h2 className='text-2xl font-bold text-gray-900 mb-6'>
-            {comments.length} Comments
+            {reviews?.data?.result?.length} Reviews
           </h2>
 
           <div className='space-y-6'>
-            {comments.map((comment) => (
-              <div key={comment.id} className='flex space-x-4'>
+            {reviews?.data?.result?.map((review: IReview) => (
+              <div key={review._id} className='flex space-x-4'>
                 <Image
-                  src={comment.avatar || "/placeholder.svg"}
-                  alt={comment.author}
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${review?.user?.image}`}
+                  alt={review?.user?.name}
                   width={48}
                   height={48}
                   className='w-12 h-12 rounded-full object-cover flex-shrink-0'
@@ -266,34 +258,16 @@ export default function ServiceReviewSection() {
                   <div className='flex items-center justify-between mb-2'>
                     <div>
                       <h4 className='font-semibold text-gray-900'>
-                        {comment.author}
+                        {review?.user?.name}
                       </h4>
                       <p className='text-sm text-gray-500'>
-                        {comment.date} • {comment.time}
+                        {review.createdAt?.split("T")[0]} •{" "}
+                        {review?.createdAt?.split("T")[1]}
                       </p>
                     </div>
-                    <button className='p-1 hover:bg-gray-100 rounded transition-colors duration-200'>
-                      <MoreHorizontal className='w-4 h-4 text-gray-400' />
-                    </button>
                   </div>
 
-                  <p className='text-gray-700 mb-3'>{comment.text}</p>
-
-                  <div className='flex items-center space-x-4'>
-                    <button className='flex items-center space-x-1 text-sm text-gray-500 hover:text-cyan-600 transition-colors duration-200'>
-                      <ThumbsUp className='w-4 h-4' />
-                      <span>Like</span>
-                    </button>
-                    <button className='px-4 py-1 bg-cyan-500 text-white text-sm rounded-full hover:bg-cyan-600 transition-colors duration-200'>
-                      Reply
-                    </button>
-                  </div>
-
-                  {/* {comment.replies && (
-                    <button className='mt-3 text-sm text-cyan-600 hover:text-cyan-700 transition-colors duration-200'>
-                      View {comment.replies} more reply...
-                    </button>
-                  )} */}
+                  <p className='text-gray-700 mb-3'>{review?.review}</p>
                 </div>
               </div>
             ))}
@@ -394,7 +368,7 @@ export default function ServiceReviewSection() {
                 }
               `}
             >
-              {isSubmitting ? "Uploading..." : "Upload Review"}
+              {isSubmitting ? "Submitting..." : "Submit Review"}
             </button>
           </form>
         </div>
