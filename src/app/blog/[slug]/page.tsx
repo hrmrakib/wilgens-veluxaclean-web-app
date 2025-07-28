@@ -21,7 +21,7 @@ export default function BlogDetailPage() {
         {/* Hero Image */}
         <div className='aspect-[16/9] md:aspect-[2/1] relative overflow-hidden rounded-2xl mb-8'>
           <Image
-            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${blog?.data?.image[0]}`}
+            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${blog?.data?.image}`}
             alt='Professional cleaners working on windows'
             fill
             className='object-cover'
@@ -35,14 +35,7 @@ export default function BlogDetailPage() {
           <h1 className='text-3xl md:text-4xl font-bold text-gray-900 mb-6'>
             {blog?.data?.title}
           </h1>
-          {/* <p className='text-gray-700 leading-relaxed text-lg mb-6'>
-            The rush to give employees access to all the tools they&apos;d need
-            to work from home was a bit, well, sudden for many employers. But
-            after everyone settled in, what quickly became apparent to many
-            office-based teams is that employees could be productive and focused
-            when not in the office—in many cases, even more so. Employers
-            everywhere began to understand that remote work really works.
-          </p> */}
+
           <p className='text-gray-700 leading-relaxed'>
             {blog?.data?.description}
           </p>

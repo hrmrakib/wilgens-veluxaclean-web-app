@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { useCreateBookingMutation } from "@/redux/features/booking/bookingAPI";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
+import { useCreatePaymentMutation } from "@/redux/features/payment/paymentAPI";
 
 interface FormData {
   name: string;
@@ -52,6 +53,7 @@ export default function BookingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const params = useParams();
   const [createBooking] = useCreateBookingMutation();
+  const [createPayment] = useCreatePaymentMutation();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -107,8 +109,21 @@ export default function BookingPage() {
         description: formData?.message,
       });
 
+      console.log(res);
+
       if (res?.data?.success) {
         toast.success(res?.data?.message);
+
+        const paymentRes = await createPayment({
+          service: params?.slug,
+        });
+
+        // if (paymentRes?.data?.url) {
+        //   window.open(paymentRes?.data?.url, "_blank");
+        // }
+        if (paymentRes?.data?.url) {
+          window.location.href = paymentRes?.data?.url;
+        }
       }
     } catch (error) {
       console.error("Error submitting form:", error);

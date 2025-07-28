@@ -128,7 +128,7 @@ export default function TestimonialsSection() {
                   <div className='flex items-center space-x-4 mb-6'>
                     <div className='relative'>
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${testimonial.user.image}`}
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${testimonial?.user?.image}`}
                         alt={testimonial?.user?.name}
                         className='w-16 h-16 rounded-full object-cover border-4 border-gray-100 group-hover:border-cyan-200 transition-colors duration-300'
                         width={80}

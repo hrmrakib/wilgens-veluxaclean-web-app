@@ -41,7 +41,7 @@ export default function BlogPageSesction() {
               >
                 <div className='aspect-[3/2] relative overflow-hidden'>
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${post?.image[0]}`}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${post?.image}`}
                     alt={post.title}
                     fill
                     className='object-cover transition-transform duration-300'

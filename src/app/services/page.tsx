@@ -112,20 +112,20 @@ export default function ServicesPage() {
   const renderServiceCard = (service: IService, index: number) => (
     <Link href={`/services/${service._id}`} key={service._id}>
       <Card
-        key={service._id}
+        key={service?._id}
         className={`group cursor-pointer transition-all duration-700 hover:shadow-xl hover:-translate-y-2 overflow-hidden ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
         style={{ transitionDelay: `${index * 100}ms` }}
-        onMouseEnter={() => setHoveredCard(service._id)}
+        onMouseEnter={() => setHoveredCard(service?._id)}
         onMouseLeave={() => setHoveredCard(null)}
-        onClick={() => handleServiceClick(service._id)}
+        onClick={() => handleServiceClick(service?._id)}
       >
         <CardContent className='p-0 h-full flex flex-col'>
           {/* Image */}
           <div className='relative overflow-hidden'>
             <Image
-              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${service.image}`}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${service?.image}`}
               alt={service?.serviceName}
               className='w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105'
               width={300}
@@ -151,11 +151,11 @@ export default function ServicesPage() {
               <Button
                 size='sm'
                 className={`text-xs px-3 py-1 transition-all duration-300 ${
-                  hoveredCard === service._id
+                  hoveredCard === service?._id
                     ? "bg-cyan-600 hover:bg-cyan-700 scale-105"
                     : "bg-cyan-500 hover:bg-cyan-600"
                 }`}
-                onClick={(e) => handleBookNow(Number(service._id), e)}
+                onClick={(e) => handleBookNow(Number(service?._id), e)}
               >
                 Book
               </Button>
@@ -204,26 +204,26 @@ export default function ServicesPage() {
                 <div className='space-y-2'>
                   {categories.map((category) => (
                     <button
-                      key={category.id}
-                      onClick={() => scrollToCategory(category.id)}
+                      key={category?.id}
+                      onClick={() => scrollToCategory(category?.id)}
                       className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center justify-between group ${
-                        activeCategory === category.id
+                        activeCategory === category?.id
                           ? "bg-cyan-500 text-white shadow-md"
                           : "text-gray-700 hover:bg-gray-100 hover:text-cyan-600"
                       }`}
                     >
                       <span className='font-medium text-sm'>
-                        {category.name}
+                        {category?.name}
                       </span>
                       <Badge
                         variant='secondary'
                         className={`text-xs ${
-                          activeCategory === category.id
+                          activeCategory === category?.id
                             ? "bg-white/20 text-white"
                             : "bg-gray-200 text-gray-600 group-hover:bg-cyan-100 group-hover:text-cyan-700"
                         }`}
                       >
-                        {category.count}
+                        {category?.count}
                       </Badge>
                     </button>
                   ))}
@@ -237,7 +237,7 @@ export default function ServicesPage() {
             {/* Page Header */}
             <div
               className={`transition-all duration-1000 delay-300 ${
-                isVisible 
+                isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
               }`}

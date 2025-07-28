@@ -41,7 +41,6 @@ export default function Navbar() {
     const user = localStorage.getItem("VeluxaCleanUser");
     if (user) {
       dispatch(setCurrentUser(JSON.parse(user)));
-      // setUser(JSON.parse(user));
     }
   }, [dispatch]);
 
@@ -193,15 +192,19 @@ export default function Navbar() {
 
                 {/* Mobile Login Button */}
                 <div className='w-full absolute bottom-5 flex items-center pt-4 border-t border-[#3164699f]'>
-                  <SheetClose asChild>
-                    <Button
-                      variant='outline'
-                      className='w-[90%] mx-auto bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                      asChild
-                    >
-                      <Link href='/login'>Login</Link>
-                    </Button>
-                  </SheetClose>
+                  {user ? (
+                    <SheetClose asChild>
+                      <Button
+                        variant='outline'
+                        className='w-[90%] mx-auto bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        asChild
+                      >
+                        <Link href='/login'>Login</Link>
+                      </Button>
+                    </SheetClose>
+                  ) : (
+                    <span>{user?.name}</span>
+                  )}
                 </div>
               </div>
             </SheetContent>

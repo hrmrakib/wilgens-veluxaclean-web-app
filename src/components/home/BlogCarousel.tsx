@@ -118,28 +118,6 @@ export default function BlogCarousel() {
 
         {/* Carousel Container */}
         <div className='relative'>
-          {/* Navigation Buttons */}
-          {/* <Button
-            variant='outline'
-            size='icon'
-            className='absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50'
-            onClick={prevSlide}
-            disabled={currentIndex === 0}
-          >
-            <ChevronLeft className='w-5 h-5' />
-          </Button>
-
-          <Button
-            variant='outline'
-            size='icon'
-            className='absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50'
-            onClick={nextSlide}
-            disabled={currentIndex >= maxIndex}
-          >
-            <ChevronRight className='w-5 h-5' />
-          </Button> */}
-
-          {/* Carousel */}
           <div className='overflow-hidden' ref={carouselRef}>
             <div
               className='flex transition-transform duration-500 ease-in-out'
@@ -197,7 +175,7 @@ export default function BlogCarousel() {
 
                         {/* Description */}
                         <p className='text-[#545971] text-lg leading-relaxed mb-6 flex-grow'>
-                          {post.description}
+                          {post.description?.slice(0, 100) + "..."}
                         </p>
 
                         {/* Category Tag */}

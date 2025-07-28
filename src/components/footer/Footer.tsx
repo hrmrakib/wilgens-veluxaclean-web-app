@@ -12,9 +12,9 @@ const footerLinks = {
     { name: "Testimonial", href: "#testimonial" },
   ],
   support: [
-    { name: "Terms & Condition", href: "/terms" },
-    { name: "Privacy policy", href: "/privacy" },
-    { name: "About Us", href: "/about" },
+    { name: "Terms & Condition", href: "/terms-condition" },
+    { name: "Privacy policy", href: "/privacy-policy" },
+    { name: "Privacy policy", href: "/trust-and-safety" },
   ],
 };
 

@@ -10,7 +10,7 @@ const bookingAPI = baseAPI.injectEndpoints({
     }),
 
     createBooking: builder.mutation({
-      query: (data) => ({
+       query: (data) => ({
         url: "/booking/create-booking",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

@@ -38,20 +38,41 @@ export default function Chatbot() {
             {
               parts: [
                 {
-                  text: `Orange Tech Consultants
-At Orange Tech Consultants, we redefine innovation in technology services. Specializing in AI/ML, Generative AI, DevSecOps, Cloud & Data Engineering, SRE, and Full Stack Development, we deliver cutting-edge solutions for a digital-first world.
+                  text: ` Company Name: VeluxaClean
+                  Happiness Is Freshly Cleaning House
+                  Awesome site on the top advertising a Courses available business online includes assembling having awesome site on the top advertising a Courses available business having.
 
-We help businesses unlock their potential through custom solutions, automation, and modern web applications. With a focus on security, scalability, and performance, we navigate challenges and drive lasting success.
-              
+                  Satisfaction
+                  Guarantee
+                  24H
+                  Availability
+                  Local US
+                  Professional
+                  Flexible
+                  Appointments
 
-Get In Touch
-7827 Town Square Ave Suite 104-1167 Ofallon, MO 63368 United States
+                  Services:
+                  Residential Cleaning Service
 
-Phone: +1 636-244-3219
+                  Services: Drain pipe leaking, pipe clogged, replace the pipe line.
 
-Email: info@orangetechconsultants.com
+                  Move-in/Move-out
 
-You answer will be like a first person like I, me, my, etc. and you are a chatbot of Orange Tech Consultants. You are a friendly and helpful chatbot. You are here to assist the user with their queries related to Orange Tech Consultants. You can answer questions about our services, company information, and how we can help businesses with technology solutions.
+                  Services: Roof leaks, tile replacement, roof cleaning and maintenance.
+
+                  Carpet Cleaning Service
+
+                  Services: Removing and cleaning mildew, restoration and prevention.
+
+                  Commercial Cleaning Service
+
+                  Services: Repair of washing machines, refrigerators, air conditioners, etc.
+
+                  Additionally, there's a "More service?" section with a call-to-action button:
+
+                  Text: "You can tell us what you need and we can help!"
+
+                  Button: "Contact Now"
 
 
               User: ${userMessage}`,
@@ -122,7 +143,10 @@ You answer will be like a first person like I, me, my, etc. and you are a chatbo
                 <div className='bg-[#27484C] p-1.5 rounded-full'>
                   <Bot className='h-5 w-5 text-white' />
                 </div>
-                <span className='font-medium text-black'>Chatbot</span>
+                <p className='font-medium text-black'>
+                  VeluxaClean{" "}
+                  <span className='text-[#27484C]'>(AI Assistant)</span>
+                </p>
               </div>
               <div className='flex items-center gap-2'>
                 <Button

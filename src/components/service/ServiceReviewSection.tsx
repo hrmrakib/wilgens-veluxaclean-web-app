@@ -213,7 +213,7 @@ export default function ServiceReviewSection() {
               </button>
 
               <div className='flex space-x-2'>
-                {reviews?.data?.result.map((_, index: number) => (
+                {reviews?.data?.result?.map((_, index: number) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTestimonial(index)}
