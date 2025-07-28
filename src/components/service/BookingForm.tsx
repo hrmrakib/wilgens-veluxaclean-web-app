@@ -118,9 +118,6 @@ export default function BookingPage() {
           service: params?.slug,
         });
 
-        // if (paymentRes?.data?.url) {
-        //   window.open(paymentRes?.data?.url, "_blank");
-        // }
         if (paymentRes?.data?.url) {
           window.location.href = paymentRes?.data?.url;
         }

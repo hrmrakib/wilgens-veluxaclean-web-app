@@ -2,38 +2,6 @@ import baseAPI from "@/redux/api/baseAPI";
 
 const settingAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getProfile: builder.query({
-      query: () => ({
-        url: `/api-auth/user_profile/`,
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }),
-    }),
-
-    updateProfile: builder.mutation({
-      query: (data) => ({
-        url: `/api-auth/update_profile/`,
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        body: data,
-      }),
-    }),
-
-    updatePassword: builder.mutation({
-      query: (data) => ({
-        url: `/api-auth/change_password/`,
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        body: data,
-      }),
-    }),
-
     getTermsAndConditions: builder.query({
       query: () => ({
         url: `/setting/get/terms-and-conditions`,
@@ -94,9 +62,6 @@ const settingAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useGetProfileQuery,
-  useUpdateProfileMutation,
-  useUpdatePasswordMutation,
   useGetTermsAndConditionsQuery,
   useSetTermsAndConditionsMutation,
   useGetPrivacyPolicyQuery,

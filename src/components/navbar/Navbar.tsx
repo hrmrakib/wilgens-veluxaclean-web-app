@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { LogOut, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -21,6 +21,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/features/user/userSlice";
 import { setCurrentUser } from "@/redux/features/auth/userSlice";
 import { RootState } from "@/redux/store/store";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useGetProfileQuery } from "@/redux/features/profile/profileAPI";
 
 const navigationItems = [
   { name: "Home", href: "/" },
@@ -36,7 +45,9 @@ export default function Navbar() {
   const pathname = usePathname();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
+  const { data } = useGetProfileQuery({});
 
+  console.log("user data", data?.data);
   useEffect(() => {
     const user = localStorage.getItem("VeluxaCleanUser");
     if (user) {
@@ -49,11 +60,8 @@ export default function Navbar() {
   }
 
   const handleLogout = () => {
-    console.log("Logout clicked");
     dispatch(logout());
   };
-
-  console.log("user", user);
 
   return (
     <header className='sticky top-0 z-50 w-full bg-[#F4F6FB] '>
@@ -110,13 +118,52 @@ export default function Navbar() {
           {/* Desktop Login Button */}
           <div className='hidden lg:flex'>
             {user ? (
-              <Button
-                onClick={() => handleLogout()}
-                variant='outline'
-                className='bg-transparent text-lg text-[#4A4A4A] border-[#c55b48] !rounded-full hover:bg-gray-50 cursor-pointer'
-              >
-                Logout
-              </Button>
+              <div className='flex items-center'>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant='ghost'
+                      className='relative h-10 w-10 rounded-full border'
+                    >
+                      <Avatar className='h-10 w-10'>
+                        <AvatarImage
+                          src={
+                            data?.data?.image
+                              ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${data.data.image}`
+                              : "/user/user.png"
+                          }
+                          alt='Profile'
+                        />
+                        <AvatarFallback>Me</AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className='w-56' align='end' forceMount>
+                    <div className='flex items-center justify-start gap-2 p-2'>
+                      <div className='flex flex-col space-y-1 leading-none'>
+                        <p className='font-medium'>{data?.data?.name}</p>
+                        <p className='w-[200px] truncate text-sm text-muted-foreground'>
+                          {data?.data?.email}
+                        </p>
+                      </div>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className='cursor-pointer'>
+                      <Link href='/profile' className='flex items-center gap-2'>
+                        <User className='mr-2 h-4 w-4' />
+                        <span>Profile</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleLogout()}
+                      className='cursor-pointer'
+                    >
+                      <LogOut className='mr-2 h-4 w-4' />
+                      <span>Logout</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             ) : (
               <Button
                 variant='outline'
@@ -191,19 +238,73 @@ export default function Navbar() {
                 </nav>
 
                 {/* Mobile Login Button */}
-                <div className='w-full absolute bottom-5 flex items-center pt-4 border-t border-[#3164699f]'>
+                <div className='w-full flex items-center justify-end p-4 border-t border-[#3164699f]'>
                   {user ? (
-                    <SheetClose asChild>
-                      <Button
-                        variant='outline'
-                        className='w-[90%] mx-auto bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                        asChild
-                      >
-                        <Link href='/login'>Login</Link>
-                      </Button>
-                    </SheetClose>
+                    <div className='flex items-center'>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant='ghost'
+                            className='relative h-10 w-10 rounded-full border'
+                          >
+                            <Avatar className='h-10 w-10'>
+                              <AvatarImage
+                                src={
+                                  data?.data?.image
+                                    ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${data.data.image}`
+                                    : "/user/user.png"
+                                }
+                                alt='Profile'
+                              />
+                              <AvatarFallback>Me</AvatarFallback>
+                            </Avatar>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          className='w-56'
+                          align='end'
+                          forceMount
+                        >
+                          <div className='flex items-center justify-start gap-2 p-2'>
+                            <div className='flex flex-col space-y-1 leading-none'>
+                              <p className='font-medium'>{data?.data?.name}</p>
+                              <p className='w-[200px] truncate text-sm text-muted-foreground'>
+                                {data?.data?.email}
+                              </p>
+                            </div>
+                          </div>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className='cursor-pointer'>
+                            <Link
+                              href='/profile'
+                              className='flex items-center gap-2'
+                            >
+                              <User className='mr-2 h-4 w-4' />
+                              <span>Profile</span>
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleLogout()}
+                            className='cursor-pointer'
+                          >
+                            <LogOut className='mr-2 h-4 w-4' />
+                            <span>Logout</span>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   ) : (
-                    <span>{user?.name}</span>
+                    <div>
+                      <SheetClose asChild>
+                        <Button
+                          variant='outline'
+                          className='w-[90%] mx-auto bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                          asChild
+                        >
+                          <Link href='/login'>Login</Link>
+                        </Button>
+                      </SheetClose>
+                    </div>
                   )}
                 </div>
               </div>

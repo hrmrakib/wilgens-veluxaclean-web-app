@@ -130,8 +130,6 @@ export default function LoginPage() {
     // Implement social login logic here
   };
 
-  console.log(formData.email, formData.password);
-
   return (
     <div className='min-h-screen bg-white flex'>
       {/* Left Side - Login Form */}
@@ -308,7 +306,7 @@ export default function LoginPage() {
               <button
                 type='button'
                 onClick={() => handleSocialLogin("google")}
-                className='w-full flex items-center justify-center px-4 py-3 border-2 border-gray-200 rounded-full hover:border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2'
+                className='w-full flex items-center justify-center px-4 py-3 border-2 border-gray-200 rounded-full cursor-pointer hover:border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2'
               >
                 <svg className='w-5 h-5 mr-3' viewBox='0 0 24 24'>
                   <path
@@ -333,7 +331,7 @@ export default function LoginPage() {
                 </span>
               </button>
 
-              <button
+              {/* <button
                 type='button'
                 onClick={() => handleSocialLogin("apple")}
                 className='w-full flex items-center justify-center px-4 py-3 border-2 border-gray-200 rounded-full hover:border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2'
@@ -348,7 +346,7 @@ export default function LoginPage() {
                 <span className='text-gray-700 font-medium'>
                   Continue with Apple
                 </span>
-              </button>
+              </button> */}
             </div>
           </form>
         </div>

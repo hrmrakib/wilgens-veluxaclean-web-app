@@ -153,6 +153,33 @@ export default function VerifyEmailPage() {
     }
   };
 
+  const handleResendCode = async () => {
+    setState((prev) => ({ ...prev, isResending: true, error: "" }));
+
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Reset state for new code
+      setState((prev) => ({
+        ...prev,
+        code: ["", "", "", "", "", ""],
+        isResending: false,
+        timeLeft: 60,
+        canResend: false,
+      }));
+
+      // Focus first input
+      inputRefs.current[0]?.focus();
+    } catch {
+      setState((prev) => ({
+        ...prev,
+        isResending: false,
+        error: "Failed to resend code. Please try again.",
+      }));
+    }
+  };
+
   return (
     <div className='min-h-screen bg-white flex'>
       {/* Left Side - Verification Form */}

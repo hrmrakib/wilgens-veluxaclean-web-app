@@ -2,11 +2,10 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { Clock, Phone, MapPin, Send, CheckCircle } from "lucide-react";
+import { Clock, Phone, MapPin, CheckCircle } from "lucide-react";
 import Image from "next/image";
+import ContactFormSection from "../contact/ContactFormSection";
 
 const contactInfo = [
   {
@@ -26,26 +25,10 @@ const contactInfo = [
   },
 ];
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  message: string;
-}
-
 export default function ContactSection() {
   const [isVisible, setIsVisible] = React.useState(false);
-  const [formData, setFormData] = React.useState<FormData>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
   const [isSubmitted, setIsSubmitted] = React.useState(false);
-  const [errors, setErrors] = React.useState<Partial<FormData>>({});
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -68,70 +51,6 @@ export default function ContactSection() {
       }
     };
   }, []);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
-    if (errors[name as keyof FormData]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
-    }
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {};
-
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "First name is required";
-    }
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last name is required";
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
-    }
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    }
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    // Simulate API call
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Form submitted:", formData);
-      setIsSubmitted(true);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        message: "",
-      });
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   const handlePhoneClick = (phone: string) => {
     window.location.href = `tel:${phone}`;
@@ -236,140 +155,19 @@ export default function ContactSection() {
 
           {/* Right Side - Contact Form */}
           <div
-            className={`bg-[#F5F8FD] md:h-[900px] p-8 lg:p-12 flex flex-col justify-center relative transition-all duration-1000 delay-300 ${
+            className={`bg-[#ffffff] md:h-[900px] p-8 lg:p-12 flex flex-col justify-center relative transition-all duration-1000 delay-300 ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 translate-x-10"
             }`}
           >
-            {/* Vertical Text */}
             <div className='hidden md:flex bg-[#F5F8FD] py-5 px-8 absolute -left-[270px] rounded-t-4xl top-1/2 -translate-y-1/2 -rotate-90 origin-center'>
               <span className='text-[#2F4672] font-medium text-[30px] tracking-wider whitespace-nowrap'>
                 Schedule an Appointment
               </span>
             </div>
 
-            {/* Form */}
-            <div className='md:ml-8'>
-              <form
-                onSubmit={handleSubmit}
-                className='space-y-6 md:max-w-[80%] mx-auto'
-              >
-                {/* Name Fields */}
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  <div>
-                    <Input
-                      type='text'
-                      name='firstName'
-                      placeholder='First name'
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      className={`h-12 border-gray-200 focus:border-cyan-500 focus:ring-cyan-500 ${
-                        errors.firstName ? "border-red-500" : ""
-                      }`}
-                    />
-                    {errors.firstName && (
-                      <p className='text-red-500 text-sm mt-1'>
-                        {errors.firstName}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <Input
-                      type='text'
-                      name='lastName'
-                      placeholder='Last name'
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      className={`h-12 border-gray-200 focus:border-cyan-500 focus:ring-cyan-500 ${
-                        errors.lastName ? "border-red-500" : ""
-                      }`}
-                    />
-                    {errors.lastName && (
-                      <p className='text-red-500 text-sm mt-1'>
-                        {errors.lastName}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Contact Fields */}
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  <div>
-                    <Input
-                      type='email'
-                      name='email'
-                      placeholder='Email address'
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className={`h-12 border-gray-200 focus:border-cyan-500 focus:ring-cyan-500 ${
-                        errors.email ? "border-red-500" : ""
-                      }`}
-                    />
-                    {errors.email && (
-                      <p className='text-red-500 text-sm mt-1'>
-                        {errors.email}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <Input
-                      type='tel'
-                      name='phone'
-                      placeholder='Phone no'
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className={`h-12 border-gray-200 focus:border-cyan-500 focus:ring-cyan-500 ${
-                        errors.phone ? "border-red-500" : ""
-                      }`}
-                    />
-                    {errors.phone && (
-                      <p className='text-red-500 text-sm mt-1'>
-                        {errors.phone}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Message Field */}
-                <div>
-                  <Textarea
-                    name='message'
-                    placeholder='Message...'
-                    rows={12}
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className={`h-40 border-gray-200 focus:border-cyan-500 focus:ring-cyan-500 resize-none ${
-                      errors.message ? "border-red-500" : ""
-                    }`}
-                  />
-                  {errors.message && (
-                    <p className='text-red-500 text-sm mt-1'>
-                      {errors.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* Submit Button */}
-                <Button
-                  type='submit'
-                  disabled={isSubmitting}
-                  className='w-full h-12 bg-[#6ECEDA] hover:bg-[#6ECEDA] text-[#4A4A4A] font-semibold rounded-full transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
-                >
-                  {isSubmitting ? (
-                    <div className='flex items-center space-x-2'>
-                      <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
-                      <span>Sending...</span>
-                    </div>
-                  ) : (
-                    <div className='flex items-center space-x-2'>
-                      <Send className='w-4 h-4' />
-                      <span>Send Message</span>
-                    </div>
-                  )}
-                </Button>
-              </form>
-            </div>
+            <ContactFormSection contactDetail={false} />
           </div>
         </div>
       </div>
