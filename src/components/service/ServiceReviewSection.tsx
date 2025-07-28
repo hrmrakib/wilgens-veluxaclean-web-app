@@ -6,13 +6,7 @@ import type React from "react";
 
 import { useState } from "react";
 import Image from "next/image";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Star,
-  MoreHorizontal,
-  ThumbsUp,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { useCreateBookingMutation } from "@/redux/features/booking/bookingAPI";
 import { toast } from "sonner";
 import {
@@ -52,26 +46,6 @@ interface ReviewFormData {
   rating: number;
   review: string;
 }
-
-const comments: Comment[] = [
-  {
-    id: 1,
-    author: "Taylor Swift",
-    avatar: "/testi.png",
-    date: "January 9, 2022",
-    time: "7:18 pm",
-    text: "Many remote jobs also come with flexible schedules, which means that workers can start and end their day as they choose, as long as their work",
-  },
-  {
-    id: 2,
-    author: "Amber Ross",
-    avatar: "/testi.png",
-    date: "January 9, 2022",
-    time: "7:06 pm",
-    text: "Many remote jobs also come with flexible schedules, which means that workers can start and end their day as they choose, as long as their work",
-    replies: 1,
-  },
-];
 
 export default function ServiceReviewSection() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
