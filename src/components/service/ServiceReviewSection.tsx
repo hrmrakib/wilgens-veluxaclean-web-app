@@ -90,7 +90,7 @@ export default function ServiceReviewSection() {
     params.slug as string
   );
 
-  console.log("reviews", reviews?.data?.result);
+  console.log("reviews", reviews?.data?.result.length);
 
   const handlePrevTestimonial = () => {
     setCurrentTestimonial((prev) =>
@@ -299,36 +299,40 @@ export default function ServiceReviewSection() {
             )}
 
             {/* Rating */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Rating
-              </label>
-              <div className='flex items-center space-x-2'>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type='button'
-                    onClick={() =>
-                      setFormData((prev) => ({ ...prev, rating: star }))
-                    }
-                    className='transition-colors duration-200'
-                  >
-                    <Star
-                      className={`w-8 h-8 ${
-                        star <= formData.rating
-                          ? "fill-yellow-400 text-yellow-400"
-                          : "text-gray-300 hover:text-yellow-400"
-                      }`}
-                    />
-                  </button>
-                ))}
-                <span className='ml-2 text-sm text-gray-600'>
-                  {formData.rating > 0
-                    ? `${formData.rating} star${formData.rating > 1 ? "s" : ""}`
-                    : "Select rating"}
-                </span>
+            {reviews?.data?.result.length && (
+              <div>
+                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                  Rating
+                </label>
+                <div className='flex items-center space-x-2'>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type='button'
+                      onClick={() =>
+                        setFormData((prev) => ({ ...prev, rating: star }))
+                      }
+                      className='transition-colors duration-200'
+                    >
+                      <Star
+                        className={`w-8 h-8 ${
+                          star <= formData.rating
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-gray-300 hover:text-yellow-400"
+                        }`}
+                      />
+                    </button>
+                  ))}
+                  <span className='ml-2 text-sm text-gray-600'>
+                    {formData.rating > 0
+                      ? `${formData.rating} star${
+                          formData.rating > 1 ? "s" : ""
+                        }`
+                      : "Select rating"}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Review Text */}
             <div>
