@@ -109,7 +109,14 @@ export default function BookingPage() {
         description: formData?.message,
       });
 
-      console.log(res);
+      if (
+        res?.error &&
+        "status" in res.error &&
+        (res.error as { status?: number }).status === 401
+      ) {
+        toast.error("Please, login first.");
+        return;
+      }
 
       if (res?.data?.success) {
         toast.success(res?.data?.message);

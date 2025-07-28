@@ -130,14 +130,14 @@ export default function ServiceDetailSection() {
             {/* Service Info */}
             <div className='lg:col-span-2'>
               <h1 className='text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4'>
-                Bedroom & Bathroom
+                {service?.data?.serviceName}
               </h1>
 
               <div className='flex items-center space-x-4 mb-6'>
                 <span className='text-2xl lg:text-3xl font-bold text-gray-900'>
-                  $150
+                  Starting From ${service?.data?.price}
                 </span>
-                <span className='text-xl text-gray-600'>- $300</span>
+
                 <div className='flex items-center space-x-1'>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
