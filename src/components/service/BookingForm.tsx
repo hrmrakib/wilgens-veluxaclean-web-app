@@ -17,7 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCreateBookingMutation } from "@/redux/features/booking/bookingAPI";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCreatePaymentMutation } from "@/redux/features/payment/paymentAPI";
 
@@ -54,6 +54,7 @@ export default function BookingPage() {
   const params = useParams();
   const [createBooking] = useCreateBookingMutation();
   const [createPayment] = useCreatePaymentMutation();
+  const router = useRouter();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -115,6 +116,7 @@ export default function BookingPage() {
         (res.error as { status?: number }).status === 401
       ) {
         toast.error("Please, login first.");
+        router.push("/login");
         return;
       }
 
