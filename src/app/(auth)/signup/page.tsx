@@ -320,7 +320,7 @@ export default function SignupPage() {
             className='w-full h-auto'
             priority
           />
-        </div>
+        </div> 
       </div>
     </div>
   );

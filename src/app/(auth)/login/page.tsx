@@ -125,10 +125,9 @@ export default function LoginPage() {
     }
   };
 
-  const handleSocialLogin = (provider: "google" | "apple") => {
-    console.log(`Login with ${provider}`);
-    // Implement social login logic here
-  };
+  // const handleSocialLogin = (provider: "google" | "apple") => {
+  //   console.log(`Login with ${provider}`);
+  // };
 
   return (
     <div className='min-h-screen bg-white flex'>
@@ -303,7 +302,7 @@ export default function LoginPage() {
 
             {/* Social Login Buttons */}
             <div className='space-y-3'>
-              <button
+              {/* <button 
                 type='button'
                 onClick={() => handleSocialLogin("google")}
                 className='w-full flex items-center justify-center px-4 py-3 border-2 border-gray-200 rounded-full cursor-pointer hover:border-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2'
@@ -329,7 +328,7 @@ export default function LoginPage() {
                 <span className='text-gray-700 font-medium'>
                   Sign in with Google
                 </span>
-              </button>
+              </button> */}
 
               {/* <button
                 type='button'
