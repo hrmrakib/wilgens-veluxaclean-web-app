@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetTrustAndSafetyQuery } from "@/redux/features/setting/settingAPI";
-import DOMPurify from "dompurify";
+// import DOMPurify from "dompurify";
 
 export default function PrivacyPolicy() {
   const { data } = useGetTrustAndSafetyQuery({});
@@ -25,9 +25,10 @@ export default function PrivacyPolicy() {
           <div className='prose prose-lg max-w-none'>
             <p
               className='text-gray-700 leading-relaxed'
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(data?.data[0]?.description || ""),
-              }}
+              // dangerouslySetInnerHTML={{
+              //   __html: DOMPurify.sanitize(data?.data[0]?.description || ""),
+              // }}
+              dangerouslySetInnerHTML={data?.data[0]?.description}
             ></p>
           </div>
         </div>

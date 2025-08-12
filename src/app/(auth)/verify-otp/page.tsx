@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -20,7 +20,7 @@ interface VerificationState {
   canResend: boolean;
 }
 
-export default function VerifyEmailPage() {
+function VerifyEmailPage() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "creativeitem@gmail.com";
 
@@ -336,5 +336,13 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Apps() {
+  return (
+    <Suspense>
+      <VerifyEmailPage />
+    </Suspense>
   );
 }

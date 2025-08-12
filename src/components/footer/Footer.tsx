@@ -205,8 +205,9 @@ export default function Footer() {
     };
   }, []);
 
-  const handleSocialClick = (href: string, name: string) => {
+  const handleSocialClick = (href: string, name?: string) => {
     window.open(href, "_blank", "noopener,noreferrer");
+    console.log(name);
   };
 
   const handleContactClick = (href: string) => {

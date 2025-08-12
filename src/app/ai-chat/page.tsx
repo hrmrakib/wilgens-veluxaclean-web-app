@@ -4,7 +4,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import type React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { Search, Edit3, ArrowUp, Menu, X, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,7 +30,7 @@ interface Message {
   timestamp: Date;
 }
 
-export default function VeluxaCleanChat() {
+function VeluxaCleanChat() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -687,5 +687,13 @@ export default function VeluxaCleanChat() {
 
       {isSearchModalOpen && <SearchModal />}
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <VeluxaCleanChat />
+    </Suspense>
   );
 }
