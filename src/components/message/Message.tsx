@@ -131,7 +131,6 @@ export default function Chatbot() {
     setIsOpen(!isOpen);
   };
 
-  console.log(messages);
 
   return (
     <div className='z-[999]'>

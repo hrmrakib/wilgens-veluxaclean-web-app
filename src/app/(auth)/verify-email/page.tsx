@@ -6,8 +6,11 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
-import { useVerifyOtpMutation } from "@/redux/features/auth/authAPI";
+import { ArrowLeft, RefreshCw } from "lucide-react";
+import {
+  useResendOtpMutation,
+  useVerifyOtpMutation,
+} from "@/redux/features/auth/authAPI";
 import { toast } from "sonner";
 
 interface VerificationState {
@@ -36,6 +39,7 @@ export default function VerifyEmailPage() {
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [verifyOtp] = useVerifyOtpMutation();
+  const [resendOtpMutation] = useResendOtpMutation();
   const router = useRouter();
 
   // Countdown timer for resend functionality
@@ -158,16 +162,11 @@ export default function VerifyEmailPage() {
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const res = await resendOtpMutation({ email }).unwrap();
 
-      // Reset state for new code
-      setState((prev) => ({
-        ...prev,
-        code: ["", "", "", "", "", ""],
-        isResending: false,
-        timeLeft: 60,
-        canResend: false,
-      }));
+      if (res?.success) {
+        toast.success(res?.message);
+      }
 
       // Focus first input
       inputRefs.current[0]?.focus();
@@ -176,6 +175,15 @@ export default function VerifyEmailPage() {
         ...prev,
         isResending: false,
         error: "Failed to resend code. Please try again.",
+      }));
+    } finally {
+      // Reset state for new code
+      setState((prev) => ({
+        ...prev,
+        code: ["", "", "", "", "", ""],
+        isResending: false,
+        timeLeft: 100,
+        canResend: false,
       }));
     }
   };
@@ -245,13 +253,13 @@ export default function VerifyEmailPage() {
               </div>
 
               {/* Resend Code Section */}
-              {/* <div className='text-center mt-4'>
+              <div className='text-center mt-4'>
                 {state.canResend ? (
                   <button
                     type='button'
                     onClick={handleResendCode}
                     disabled={state.isResending}
-                    className={`text-teal-600 hover:text-teal-700 font-medium transition-colors duration-200
+                    className={`text-teal-600 hover:text-teal-700 font-medium transition-colors duration-200 cursor-pointer 
                       ${
                         state.isResending ? "opacity-50 cursor-not-allowed" : ""
                       }`}
@@ -270,7 +278,7 @@ export default function VerifyEmailPage() {
                     Resend code in {state.timeLeft} seconds
                   </p>
                 )}
-              </div> */}
+              </div>
             </div>
 
             {/* Verify Button */}

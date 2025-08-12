@@ -59,7 +59,7 @@ export default function LoginPage() {
       }).unwrap();
 
 
-      console.log(response)
+   
       if (response?.success) {
         localStorage.setItem("accessToken", response?.data?.accessToken);
         localStorage.setItem("refreshToken", response?.data?.refreshToken);
@@ -70,7 +70,6 @@ export default function LoginPage() {
         toast.success(response?.message);
         router.push("/");
       }
-      console.log("Login successful!", response);
     } catch (error: unknown) {
       if (
         error &&
@@ -104,7 +103,6 @@ export default function LoginPage() {
     }
   };
 
-  console.log(formData.password, formData.confirmPassword);
 
   return (
     <div className='min-h-screen bg-white flex'>

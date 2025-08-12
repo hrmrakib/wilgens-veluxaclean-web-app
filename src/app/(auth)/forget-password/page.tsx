@@ -56,10 +56,8 @@ export default function ForgotPasswordPage() {
         toast.success(response?.message);
         router.push("/verify-email/?email=" + formData.email);
       }
-      console.log(response);
 
       // Handle successful password reset request
-      console.log("Password reset email sent to:", formData.email);
     } catch (error) {
       if (error instanceof Error && error.message === "Email not found") {
         setErrors({ email: "No account found with this email address." });

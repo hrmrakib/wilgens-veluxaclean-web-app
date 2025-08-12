@@ -206,7 +206,6 @@ export default function Footer() {
   }, []);
 
   const handleSocialClick = (href: string, name: string) => {
-    console.log(`Opening ${name}: ${href}`);
     window.open(href, "_blank", "noopener,noreferrer");
   };
 

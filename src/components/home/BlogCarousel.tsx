@@ -21,7 +21,6 @@ export default function BlogCarousel() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
   const { data: blogs } = useGetAllBlogsQuery({});
-  console.log(blogs?.data?.result);
 
   // Get number of visible cards based on screen size
   const getVisibleCards = () => {

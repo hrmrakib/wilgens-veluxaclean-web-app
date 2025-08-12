@@ -81,7 +81,6 @@ export default function SignupPage() {
         router.push("/verify-otp/?email=" + formData.email);
       }
 
-      console.log("Registration successful!", response);
     } catch (error) {
       if (error instanceof Error && error.message === "Email already exists") {
         setErrors({

@@ -82,7 +82,6 @@ export default function LoginPage() {
         toast.success(response?.message);
         router.push("/");
       }
-      console.log("Login successful!", response);
     } catch (error: unknown) {
       if (
         error &&
@@ -125,9 +124,7 @@ export default function LoginPage() {
     }
   };
 
-  // const handleSocialLogin = (provider: "google" | "apple") => {
-  //   console.log(`Login with ${provider}`);
-  // };
+
 
   return (
     <div className='min-h-screen bg-white flex'>

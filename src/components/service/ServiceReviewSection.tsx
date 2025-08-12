@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 "use client";
@@ -64,7 +65,6 @@ export default function ServiceReviewSection() {
     params.slug as string
   );
 
-  console.log("reviews", reviews?.data?.result.length);
 
   const handlePrevTestimonial = () => {
     setCurrentTestimonial((prev) =>
@@ -94,7 +94,6 @@ export default function ServiceReviewSection() {
         service: params.slug as string,
       });
 
-      console.log(res);
 
       if (res?.data?.success) {
         toast.success(res?.data?.message);
@@ -133,7 +132,6 @@ export default function ServiceReviewSection() {
 
   const currentTestimonialData = reviews?.data?.result[currentTestimonial];
 
-  console.log(formData?.rating, formData?.review);
   return (
     <div className='min-h-screen bg-[#FFFFFF] py-8 lg:py-16'>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl'>
@@ -187,7 +185,7 @@ export default function ServiceReviewSection() {
               </button>
 
               <div className='flex space-x-2'>
-                {reviews?.data?.result?.map((_, index: number) => (
+                {reviews?.data?.result?.map((_: any, index: number) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTestimonial(index)}

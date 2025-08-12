@@ -58,7 +58,6 @@ export default function FAQSection() {
 
   const { data: faqData } = useGetFaqQuery({});
 
-  console.log(faqData, "data");
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {

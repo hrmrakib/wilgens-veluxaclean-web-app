@@ -50,7 +50,6 @@ export default function ServiceDetailSection() {
   const params = useParams();
   const { data: service } = useGetServiceByIdQuery(params.slug);
 
-  console.log(service?.data);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};

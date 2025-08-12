@@ -23,7 +23,6 @@ export default function ProfilePage() {
 
   const { data: profile, refetch } = useGetProfileQuery({});
 
-  console.log(profile?.data);
 
   const [imageUpload, setImageUpload] = useState({
     file: null as File | null,
@@ -109,7 +108,6 @@ export default function ProfilePage() {
 
       const res = await updateProfile(formData).unwrap();
 
-      console.log(res);
 
       if (res?.success) {
         refetch();

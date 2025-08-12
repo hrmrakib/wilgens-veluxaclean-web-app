@@ -29,7 +29,6 @@ export default function TestimonialsSection() {
 
   const { data: testimonials } = useGetReviewsQuery({});
 
-  console.log(testimonials?.data?.result);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

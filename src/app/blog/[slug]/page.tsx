@@ -11,7 +11,6 @@ export default function BlogDetailPage() {
   const params = useParams();
   const { data: blog } = useGetBlogByIdQuery(params?.slug as string);
 
-  console.log(blog?.data?.image[0]);
   return (
     <div className='min-h-screen bg-white'>
       <CommonBanner title='Blog Detail' path='/blog' />

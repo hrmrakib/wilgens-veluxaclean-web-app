@@ -198,7 +198,6 @@ export default function VerifyEmailPage() {
     );
   }
 
-  console.log(email, "email", typeof state.code.join(""), "code");
   return (
     <div className='min-h-screen bg-white flex'>
       {/* Left Side - Verification Form */}

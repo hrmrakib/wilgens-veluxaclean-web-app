@@ -101,13 +101,11 @@ export default function ContactFormSection({
         category: formData.service,
       });
 
-      console.log(res);
       if (res?.data?.success) {
         toast.success(res?.data?.message);
         setSubmitStatus("success");
       }
 
-      console.log(res);
 
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus("idle"), 5000);
@@ -133,12 +131,7 @@ export default function ContactFormSection({
     setIsDropdownOpen(false);
   };
 
-  console.log(
-    formData.name,
-    formData.email,
-    formData.service,
-    formData.message
-  );
+  
 
   return (
     <div className='min-h-screen bg-[#FFFFFF]'>

@@ -47,7 +47,6 @@ export default function Navbar() {
   const user = useSelector((state: RootState) => state.user.user);
   const { data } = useGetProfileQuery({});
 
-  console.log("user data", data?.data);
   useEffect(() => {
     const user = localStorage.getItem("VeluxaCleanUser");
     if (user) {
