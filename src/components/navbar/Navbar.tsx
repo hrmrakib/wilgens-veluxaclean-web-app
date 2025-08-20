@@ -34,7 +34,6 @@ import { useGetProfileQuery } from "@/redux/features/profile/profileAPI";
 const navigationItems = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
-  // { name: "AI Chat", href: "/ai-chat" },
   { name: "About Us", href: "/about" },
   { name: "Our Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
@@ -54,7 +53,14 @@ export default function Navbar() {
     }
   }, [dispatch]);
 
-  if (pathname === "/ai-chat" || pathname === "/login") {
+  if (
+    pathname === "/login" ||
+    pathname === "/signup" ||
+    pathname === "/forget-password" ||
+    pathname === "/reset-password" ||
+    pathname === "/verify-email" ||
+    pathname === "/verify-otp"
+  ) {
     return null;
   }
 

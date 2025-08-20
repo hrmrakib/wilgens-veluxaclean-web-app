@@ -214,8 +214,15 @@ export default function Footer() {
     window.location.href = href;
   };
 
-  if (pathname === "/ai-chat") {
-    return null; // Don't render footer on AI chat page
+  if (
+    pathname === "/login" ||
+    pathname === "/signup" ||
+    pathname === "/forget-password" ||
+    pathname === "/reset-password" ||
+    pathname === "/verify-email" ||
+    pathname === "/verify-otp"
+  ) {
+    return null;
   }
 
   return (
