@@ -223,7 +223,7 @@ export default function ServicesPage() {
                             : "bg-gray-200 text-gray-600 group-hover:bg-cyan-100 group-hover:text-cyan-700"
                         }`}
                       >
-                        {category?.count}
+                        {category?.count || 0}
                       </Badge>
                     </button>
                   ))}

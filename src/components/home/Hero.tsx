@@ -266,7 +266,11 @@ export default function Hero() {
               className='w-[150px] h-[52px] bg-[#6ECEDA] text-[#4A4A4A] rounded-full hover:bg-transparent transition-all duration-300 shadow-lg'
               asChild
             >
-              <Link href='/contact' className='flex items-center gap-2'>
+              <Link
+                // href='/contact'
+                href='https://wa.me/8801792063488'
+                className='flex items-center gap-2'
+              >
                 <span className='text-[#4A4A4A]'> Call Us Now</span>
                 <div>
                   <svg

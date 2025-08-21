@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Home, TentTree, AlarmSmoke, TreePalm } from "lucide-react";
+import Link from "next/link";
 
 const services = [
   {
@@ -10,7 +11,7 @@ const services = [
     icon: Home,
     title: "Residential Cleaning Service",
     description: "Drain pipe leaking, pipe clogged, replace the pipe line",
-    href: "/services/residential",
+    href: "/services#category-Residential Cleaning Services",
     color: "bg-cyan-100",
     iconColor: "text-cyan-600",
   },
@@ -19,7 +20,7 @@ const services = [
     icon: TentTree,
     title: "Move-in/Move-out",
     description: "Roof leaks, tile replacement, roof cleaning and maintenance",
-    href: "/services/move-in-out",
+    href: "/services#category-Move-in/Move-out Cleaning",
     color: "bg-cyan-100",
     iconColor: "text-cyan-600",
   },
@@ -28,7 +29,7 @@ const services = [
     icon: AlarmSmoke,
     title: "Carpet Cleaning Service",
     description: "Removing and cleaning mildew, Restoration and Prevention",
-    href: "/services/carpet-cleaning",
+    href: "/services#category-Carpet Cleaning Service",
     color: "bg-cyan-100",
     iconColor: "text-cyan-600",
   },
@@ -38,7 +39,7 @@ const services = [
     title: "Commercial Cleaning Service",
     description:
       "repair of washing machines, refrigerators, Air conditioner, etc",
-    href: "/services/commercial",
+    href: "/services#category-Commercial Cleaning Service",
     color: "bg-cyan-100",
     iconColor: "text-cyan-600",
   },
@@ -113,79 +114,82 @@ export default function ServicesSection() {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
           {/* Service Cards */}
           {services.map((service, index) => (
-            <Card
-              key={service.id}
-              className={`group cursor-pointer transition-all duration-700 hover:shadow-none shadow-xl hover:-translate-y-2 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              } ${index === 3 ? "md:col-span-1 lg:col-span-1" : ""}`}
-              style={{ transitionDelay: `${index * 150}ms` }}
-              onMouseEnter={() => setHoveredCard(service.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-              onClick={() => handleServiceClick(service.id, service.href)}
-            >
-              <CardContent className='p-8 h-full flex flex-col'>
-                <div className='flex flex-col items-start space-y-6'>
-                  {/* Icon */}
-                  <div
-                    className={`!bg-[#52cada] w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${
-                      hoveredCard === service.id ? "scale-110" : service.color
-                    }`}
-                  >
-                    <service.icon
-                      className={`w-8 h-8 text-white transition-colors duration-300 ${
-                        hoveredCard === service.id
-                          ? "text-white"
-                          : service.iconColor
+            <Link href={"/services"} key={service.id}>
+              <Card
+                className={`group cursor-pointer transition-all duration-700 hover:shadow-none shadow-xl hover:-translate-y-2 ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                } ${index === 3 ? "md:col-span-1 lg:col-span-1" : ""}`}
+                style={{ transitionDelay: `${index * 150}ms` }}
+                onMouseEnter={() => setHoveredCard(service.id)}
+                onMouseLeave={() => setHoveredCard(null)}
+                onClick={() => handleServiceClick(service.id, service.href)}
+              >
+                <CardContent className='p-8 h-full flex flex-col'>
+                  <div className='flex flex-col items-start space-y-6'>
+                    {/* Icon */}
+                    <div
+                      className={`!bg-[#52cada] w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                        hoveredCard === service.id ? "scale-110" : service.color
                       }`}
-                    />
-                  </div>
+                    >
+                      <service.icon
+                        className={`w-8 h-8 text-white transition-colors duration-300 ${
+                          hoveredCard === service.id
+                            ? "text-white"
+                            : service.iconColor
+                        }`}
+                      />
+                    </div>
 
-                  {/* Content */}
-                  <div className='space-y-4 flex-grow'>
-                    <h3 className='text-xl md:text-2xl font-bold text-[#171921] leading-tight group-hover:text-cyan-600 transition-colors duration-300'>
-                      {service.title}
-                    </h3>
-                    <p className='text-[#545971] text-lg leading-relaxed'>
-                      {service.description}
-                    </p>
+                    {/* Content */}
+                    <div className='space-y-4 flex-grow'>
+                      <h3 className='text-xl md:text-2xl font-bold text-[#171921] leading-tight group-hover:text-cyan-600 transition-colors duration-300'>
+                        {service.title}
+                      </h3>
+                      <p className='text-[#545971] text-lg leading-relaxed'>
+                        {service.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
 
           {/* Call-to-Action Card */}
-          <Card
-            className={`group cursor-pointer transition-all duration-700 hover:shadow-xl hover:-translate-y-2 bg-[#15B2F5] border-0 md:col-span-1 lg:col-span-1 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-            style={{ transitionDelay: `${services.length * 150}ms` }}
-            onClick={handleContactClick}
-          >
-            <CardContent className='p-8 h-full flex flex-col justify-center items-center text-center text-[#fff]'>
-              <div className='space-y-6'>
-                <h3 className='text-2xl md:text-3xl font-bold'>
-                  More service?
-                </h3>
-                <p className='text-lg leading-relaxed opacity-90'>
-                  You can tell us what you need and we can help!
-                </p>
-                <button
-                  className='w-[356px] mx-auto h-16 flex items-center justify-center text-base md:text-2xl bg-white text-cyan-600 hover:bg-gray-50 font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105'
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleContactClick();
-                  }}
-                >
-                  Contact Now
-                </button>
-              </div>
-            </CardContent>
-          </Card>
+          <Link href={"/contact"}>
+            <Card
+              className={`group cursor-pointer transition-all duration-700 hover:shadow-xl hover:-translate-y-2 bg-[#15B2F5] border-0 md:col-span-1 lg:col-span-1 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: `${services.length * 150}ms` }}
+              onClick={handleContactClick}
+            >
+              <CardContent className='p-8 h-full flex flex-col justify-center items-center text-center text-[#fff]'>
+                <div className='space-y-6'>
+                  <h3 className='text-2xl md:text-3xl font-bold'>
+                    More service?
+                  </h3>
+                  <p className='text-lg leading-relaxed opacity-90'>
+                    You can tell us what you need and we can help!
+                  </p>
+                  <button
+                    className='w-[356px] mx-auto h-16 flex items-center justify-center text-base md:text-2xl bg-white text-cyan-600 cursor-pointer hover:bg-gray-50 font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleContactClick();
+                    }}
+                  >
+                    Contact Now
+                  </button>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </div>
     </section>
