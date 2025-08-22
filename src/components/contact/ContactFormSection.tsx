@@ -106,7 +106,6 @@ export default function ContactFormSection({
         setSubmitStatus("success");
       }
 
-
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus("idle"), 5000);
     } catch (error) {
@@ -130,8 +129,6 @@ export default function ContactFormSection({
     handleInputChange("service", service);
     setIsDropdownOpen(false);
   };
-
-  
 
   return (
     <div className='min-h-screen bg-[#FFFFFF]'>
@@ -374,9 +371,8 @@ export default function ContactFormSection({
                     <MapPin className='w-5 h-5 text-gray-400 mt-1 flex-shrink-0' />
                     <div>
                       <p className='text-gray-600 leading-relaxed'>
-                        785 15th Street, Office 468
-                        <br />
-                        Berlin, De 845612
+                        VeluxaClean <br /> 803 W Trenton Ave ste 3<br />
+                        Morrisville PA 19067
                       </p>
                     </div>
                   </div>
@@ -388,7 +384,7 @@ export default function ContactFormSection({
                       href='mailto:creativeitem@gmail.com'
                       className='text-gray-600 hover:text-blue-600 transition-colors duration-200'
                     >
-                      creativeitem@gmail.com
+                      VeluxaClean@gmail.com
                     </Link>
                   </div>
 
@@ -399,7 +395,7 @@ export default function ContactFormSection({
                       href='tel:+45612345765'
                       className='text-gray-900 font-semibold text-lg hover:text-blue-600 transition-colors duration-200'
                     >
-                      +45612345765
+                      267-248-1100
                     </Link>
                   </div>
 

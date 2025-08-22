@@ -8,8 +8,7 @@ const footerLinks = {
   company: [
     { name: "About Us", href: "/about" },
     { name: "Services", href: "/services" },
-    { name: "Community", href: "/community" },
-    { name: "Testimonial", href: "#testimonial" },
+    { name: "Testimonial", href: "/#testimonials-section" },
   ],
   support: [
     { name: "Terms & Condition", href: "/terms-condition" },
@@ -155,8 +154,8 @@ const contactInfo = [
         />
       </svg>
     ),
-    text: "(91) 98765 4321 54",
-    href: "tel:+919876543215",
+    text: "267-248-1100",
+    href: "tel:267-248-1100",
   },
   {
     icon: (
@@ -175,8 +174,8 @@ const contactInfo = [
         />
       </svg>
     ),
-    text: "support@mail.com",
-    href: "mailto:support@mail.com",
+    text: "VeluxaClean@gmail.com",
+    href: "mailto:VeluxaClean@gmail.com",
   },
 ];
 
@@ -351,7 +350,7 @@ export default function Footer() {
                 <button
                   key={index}
                   onClick={() => handleContactClick(contact.href)}
-                  className='flex items-center space-x-3 text-teal-100 hover:text-white transition-all duration-300 hover:translate-x-1 group'
+                  className='flex items-center space-x-3 text-teal-100 hover:text-white transition-all duration-300 cursor-pointer hover:translate-x-1 group'
                 >
                   <div className='w-7 h- rounded-lg flex items-center justify-center transition-colors duration-300'>
                     {/* <contact.icon className='w-4 h-4' /> */}

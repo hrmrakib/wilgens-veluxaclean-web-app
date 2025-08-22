@@ -267,8 +267,8 @@ export default function Hero() {
               asChild
             >
               <Link
-                // href='/contact'
-                href='https://wa.me/8801792063488'
+                href='https://wa.me/12672481100'
+                target="_blank"
                 className='flex items-center gap-2'
               >
                 <span className='text-[#4A4A4A]'> Call Us Now</span>
