@@ -1,11 +1,11 @@
 "use client";
 
-import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Clock, Phone, MapPin, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import ContactFormSection from "../contact/ContactFormSection";
+import { useEffect, useState } from "react";
 
 const contactInfo = [
   {
@@ -21,16 +21,15 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Service Area",
-    details: "Birmingham, AL",
+    details: "Morrisville PA 19067",
   },
 ];
 
 export default function ContactSection() {
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [isSubmitted, setIsSubmitted] = React.useState(false);
-
-  React.useEffect(() => {
+  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

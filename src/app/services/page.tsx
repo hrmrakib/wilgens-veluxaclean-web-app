@@ -266,6 +266,13 @@ export default function ServicesPage() {
                   (service: IService, index: number) =>
                     renderServiceCard(service, index)
                 )}
+
+                {services?.data?.result?.["Carpet Cleaning Service"].length ===
+                  0 && (
+                  <div className='my-2.5'>
+                    <p className='text-gray-800'>No services found.</p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -283,6 +290,13 @@ export default function ServicesPage() {
                 {services?.data?.result?.["Residential Cleaning Services"]?.map(
                   (service: IService, index: number) =>
                     renderServiceCard(service, index)
+                )}
+
+                {services?.data?.result?.["Residential Cleaning Services"]
+                  .length === 0 && (
+                  <div className='my-2.5'>
+                    <p className='text-gray-800'>No services found.</p>
+                  </div>
                 )}
               </div>
             </div>
@@ -302,6 +316,13 @@ export default function ServicesPage() {
                   (service: IService, index: number) =>
                     renderServiceCard(service, index)
                 )}
+
+                {services?.data?.result?.["Commercial Cleaning Service"]
+                  .length === 0 && (
+                  <div className='my-2.5'>
+                    <p className='text-gray-800'>No services found.</p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -316,6 +337,13 @@ export default function ServicesPage() {
                 {services?.data?.result?.["Move-in/Move-out Cleaning"]?.map(
                   (service: IService, index: number) =>
                     renderServiceCard(service, index)
+                )}
+
+                {services?.data?.result?.["Move-in/Move-out Cleaning"]
+                  .length === 0 && (
+                  <div className='my-2.5'>
+                    <p className='text-gray-800'>No services found.</p>
+                  </div>
                 )}
               </div>
             </div>
